@@ -1,0 +1,21 @@
+services:
+  neo4j:
+    image: neo4j:5
+    container_name: nexus-neo4j
+    environment:
+      NEO4J_AUTH: neo4j/nexus_dev_password
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p nexus_dev_password \"RETURN 1\" || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
