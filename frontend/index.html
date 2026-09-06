@@ -417,10 +417,119 @@
     border-top: 1px solid var(--line-soft);
   }
 
+  /* ===== Ask NEXUS (AI Investigator) ===== */
+  #ai-investigator-panel {
+    background: linear-gradient(180deg, rgba(63,167,160,0.06), rgba(18,25,34,0.4));
+    border: 1px solid var(--teal-dim);
+    border-radius: 6px;
+    margin: 16px 16px 0 16px;
+    padding: 20px 24px;
+  }
+  .ai-online-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--teal);
+    border: 1px solid var(--teal-dim);
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+    font-size: 9px;
+  }
+  .ai-online-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 8px var(--teal);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .ai-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .ai-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 6px 11px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: var(--panel-2);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .ai-chip:hover { border-color: var(--teal-dim); color: var(--teal); }
+  .ai-form { display: flex; gap: 10px; }
+  .ai-input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 12px 15px;
+    border-radius: 4px;
+    outline: none;
+  }
+  .ai-input:focus { border-color: var(--teal); }
+  .ai-submit {
+    background: var(--teal);
+    color: #06110F;
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0 22px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .ai-submit:hover { background: #4FBDB5; }
+  .ai-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+  .ai-response { margin-top: 16px; }
+  .ai-answer {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--text);
+    padding: 12px 14px;
+    background: var(--panel-2);
+    border-left: 2px solid var(--teal);
+    border-radius: 2px;
+  }
+  .ai-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    margin: 10px 0 6px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .ai-result-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .ai-result-row:last-child { border-bottom: none; }
+  .ai-path { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+  .ai-arrow { color: var(--text-faint); }
+  .ai-thinking { display: flex; gap: 5px; padding: 14px; }
+  .ai-thinking span {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--teal);
+    animation: aiThinking 1.1s ease-in-out infinite;
+  }
+  .ai-thinking span:nth-child(2) { animation-delay: 0.15s; }
+  .ai-thinking span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes aiThinking { 0%,80%,100% { opacity: 0.25; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1.15); } }
+
   /* ===== Investigation Replay ===== */
   .replay-controls {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto auto 1fr auto;
     align-items: center;
     gap: 10px;
     margin-bottom: 12px;
@@ -433,13 +542,30 @@
     letter-spacing: 0.05em;
   }
   #replay-slider { width: 100%; accent-color: var(--teal); }
+  .replay-play-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--teal-dim);
+    background: var(--panel-2);
+    color: var(--teal);
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .replay-play-btn:hover { background: var(--teal-dim); color: var(--text); }
+  .replay-play-btn.playing { background: var(--teal); color: #06110F; }
   .replay-card {
     border: 1px solid var(--line);
     background: var(--panel-2);
     border-radius: 4px;
     padding: 12px 14px;
     margin-bottom: 8px;
+    animation: cardFadeIn 0.35s ease;
   }
+  @keyframes cardFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
   .replay-card.current { border-color: var(--teal-dim); }
   .replay-card.previous { border-color: var(--line); }
   .replay-title {
@@ -454,7 +580,14 @@
     font-size: 12px;
     color: var(--text);
     line-height: 1.5;
+    min-height: 1.5em;
   }
+  .replay-desc.typing::after {
+    content: '▍';
+    color: var(--teal);
+    animation: caretBlink 0.9s step-end infinite;
+  }
+  @keyframes caretBlink { 50% { opacity: 0; } }
   .replay-source {
     margin-top: 7px;
     font-family: 'JetBrains Mono', monospace;
@@ -826,6 +959,21 @@
   <div class="topline-meta">DEMO DATASET · INVESTIGATION SUPPORT · HUMAN REVIEW REQUIRED</div>
 </div>
 
+<section class="panel" id="ai-investigator-panel">
+  <div class="eyebrow">Ask NEXUS <span class="ai-online-tag"><span class="ai-online-dot"></span>AI INVESTIGATOR</span></div>
+  <div class="ai-suggestions" id="ai-suggestions">
+    <button type="button" class="ai-chip" data-q="Who are the key connectors?">Who are the key connectors?</button>
+    <button type="button" class="ai-chip" data-q="Why was Bimal Das highlighted?">Why was Bimal Das highlighted?</button>
+    <button type="button" class="ai-chip" data-q="How is Rajesh Verma connected to Manoj Tiwari?">How is Rajesh Verma connected to Manoj Tiwari?</button>
+    <button type="button" class="ai-chip" data-q="Show Bimal Das network">Show Bimal Das network</button>
+  </div>
+  <form id="ai-form" class="ai-form">
+    <input type="text" id="ai-question" class="ai-input" placeholder="Ask NEXUS about this case…" autocomplete="off">
+    <button type="submit" class="ai-submit" id="ai-submit-btn">Ask</button>
+  </form>
+  <div id="ai-response" class="ai-response"></div>
+</section>
+
 <div class="overlay" id="overlay"></div>
 <div class="detail-panel" id="detail-panel">
   <div id="detail-content"></div>
@@ -854,11 +1002,12 @@
         <div>
           <div class="replay-kicker">Temporal investigation layer</div>
           <div class="replay-headline">Reconstruct the case timeline</div>
-          <div class="replay-caption">Move through recorded events to compare the prior and current evidence state. Use the source record to validate each investigative signal.</div>
+          <div class="replay-caption">Move through recorded events to compare the prior and current evidence state, or press play to watch the case reconstruct itself. Use the source record to validate each investigative signal.</div>
         </div>
         <div class="replay-index-badge"><strong id="replay-hero-position">—</strong>EVENT</div>
       </div>
       <div class="replay-controls">
+        <button id="replay-play-btn" type="button" class="replay-play-btn" title="Auto-play investigation replay">▶</button>
         <span class="replay-label">Event</span>
         <input id="replay-slider" type="range" min="0" max="0" value="0" step="1" aria-label="Investigation timeline replay">
         <span class="replay-position" id="replay-position">0 / 0</span>
@@ -1432,8 +1581,108 @@ document.addEventListener("click", (e) => {
   if (!e.target.closest(".search-wrap")) document.getElementById("search-results").classList.remove("open");
 });
 
+/* ===== Ask NEXUS — AI Investigator ===== */
+
+function escapeAiText(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function attachGotoHandlers(root) {
+  root.querySelectorAll(".conn-name[data-goto]").forEach(el => {
+    el.style.cursor = "pointer";
+    el.addEventListener("click", () => openEntityDetail(el.dataset.goto));
+  });
+}
+
+function renderAiResponse(d) {
+  const el = document.getElementById("ai-response");
+  let html = `<div class="ai-answer">${escapeAiText(d.answer || "No answer available.")}</div>`;
+
+  if (d.intent === "key_connectors" && Array.isArray(d.results)) {
+    html += d.results.map(r => `
+      <div class="ai-result-row">
+        <span class="conn-name" data-goto="${r.entity}">${escapeAiText(r.entity)}</span>
+        <span class="record-meta">PageRank ${(r.signals?.pagerank ?? 0)} · Betweenness ${(r.signals?.betweenness ?? 0)}</span>
+      </div>
+    `).join("");
+  }
+
+  if (d.intent === "entity_explanation" && d.entity) {
+    html += `<div class="ai-result-row"><span class="conn-name" data-goto="${d.entity}">${escapeAiText(d.entity)}</span>${d.risk ? riskBadge(d.risk) : ""}</div>`;
+    if (Array.isArray(d.supporting_evidence) && d.supporting_evidence.length) {
+      html += `<div class="ai-note">Supporting evidence</div>`;
+      html += d.supporting_evidence.map(ev => `<div class="fir-snippet">${escapeAiText(ev.evidence)}</div>`).join("");
+    }
+    if (d.note) html += `<div class="ai-note">${escapeAiText(d.note)}</div>`;
+  }
+
+  if (d.intent === "connection" && Array.isArray(d.path) && d.path.length) {
+    html += `<div class="ai-path">` + d.path.map((p, i) =>
+      (i > 0 ? `<span class="ai-arrow">→</span>` : "") +
+      `<span class="chip conn-name" data-goto="${p}">${escapeAiText(p)}</span>`
+    ).join("") + `</div>`;
+  }
+
+  if (d.intent === "entity_network") {
+    if (Array.isArray(d.direct_connections) && d.direct_connections.length) {
+      html += `<div class="ai-note">Direct connections</div><div class="community-group">${d.direct_connections.map(n => `<span class="chip conn-name" data-goto="${n}">${escapeAiText(n)}</span>`).join("")}</div>`;
+    }
+    if (Array.isArray(d.two_hop_entities) && d.two_hop_entities.length) {
+      html += `<div class="ai-note">2-hop reachable entities</div><div class="community-group">${d.two_hop_entities.map(n => `<span class="chip loc conn-name" data-goto="${n}">${escapeAiText(n)}</span>`).join("")}</div>`;
+    }
+  }
+
+  el.innerHTML = html;
+  attachGotoHandlers(el);
+}
+
+async function askNexus(question) {
+  const responseEl = document.getElementById("ai-response");
+  const btn = document.getElementById("ai-submit-btn");
+  if (!responseEl || !btn) return;
+  responseEl.innerHTML = `<div class="ai-thinking"><span></span><span></span><span></span></div>`;
+  btn.disabled = true;
+  try {
+    const res = await fetch(API_BASE + "/ai-investigator", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + AUTH_TOKEN },
+      body: JSON.stringify({ question }),
+    });
+    if (!res.ok) throw new Error("Request failed");
+    const data = await res.json();
+    renderAiResponse(data);
+  } catch (e) {
+    responseEl.innerHTML = `<div class="empty-note">Could not reach the AI Investigator — is the engine running?</div>`;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+document.getElementById("ai-form")?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const input = document.getElementById("ai-question");
+  const q = input.value.trim();
+  if (!q) return;
+  askNexus(q);
+});
+
+document.querySelectorAll(".ai-chip").forEach(chip => {
+  chip.addEventListener("click", () => {
+    const input = document.getElementById("ai-question");
+    input.value = chip.dataset.q;
+    askNexus(chip.dataset.q);
+  });
+});
+
 
 let replayEvents = [];
+let replayTimer = null;
+let replayPlaying = false;
 
 function escapeReplayText(value) {
   return String(value ?? "")
@@ -1442,6 +1691,23 @@ function escapeReplayText(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function typeWriterInto(el, text, speed) {
+  if (!el) return;
+  speed = speed || 12;
+  el.textContent = "";
+  el.classList.add("typing");
+  clearInterval(el._twTimer);
+  let i = 0;
+  el._twTimer = setInterval(() => {
+    el.textContent += text.charAt(i) || "";
+    i++;
+    if (i >= text.length) {
+      clearInterval(el._twTimer);
+      el.classList.remove("typing");
+    }
+  }, speed);
 }
 
 function renderReplayState(index) {
@@ -1466,30 +1732,59 @@ function renderReplayState(index) {
     changes.innerHTML = `
       <div class="replay-card current">
         <div class="replay-title">Baseline Investigation State</div>
-        <div class="replay-desc">${escapeReplayText(current.description || "First recorded event.")}</div>
+        <div class="replay-desc" id="replay-desc-current"></div>
         <div class="replay-source">STATE: INITIAL</div>
       </div>
     `;
+  } else {
+    changes.innerHTML = `
+      <div class="replay-card previous">
+        <div class="replay-title">Previous Event</div>
+        <div class="replay-desc">${escapeReplayText(previous.description || "")}</div>
+        <div class="replay-source">${escapeReplayText(previous.date || "")} · ${escapeReplayText(previous.type || "EVENT")}</div>
+      </div>
+      <div class="replay-card current">
+        <div class="replay-title">What Changed?</div>
+        <div class="replay-desc" id="replay-desc-current"></div>
+        <div class="replay-source">CURRENT: ${escapeReplayText(current.date || "")} · ${escapeReplayText(current.type || "EVENT")}</div>
+      </div>
+      <div class="replay-card">
+        <div class="replay-title">Investigation Trace</div>
+        <div class="replay-desc">A new event entered the chronological evidence stream at this point. Review the source record before drawing investigative conclusions.</div>
+      </div>
+    `;
+  }
+
+  const currentDescEl = document.getElementById("replay-desc-current");
+  typeWriterInto(currentDescEl, current.description || "First recorded event.");
+}
+
+function toggleReplayPlay() {
+  const btn = document.getElementById("replay-play-btn");
+  const slider = document.getElementById("replay-slider");
+  if (!btn || !slider) return;
+
+  if (replayPlaying) {
+    clearInterval(replayTimer);
+    replayTimer = null;
+    replayPlaying = false;
+    btn.textContent = "▶";
+    btn.classList.remove("playing");
     return;
   }
 
-  changes.innerHTML = `
-    <div class="replay-card previous">
-      <div class="replay-title">Previous Event</div>
-      <div class="replay-desc">${escapeReplayText(previous.description || "")}</div>
-      <div class="replay-source">${escapeReplayText(previous.date || "")} · ${escapeReplayText(previous.type || "EVENT")}</div>
-    </div>
-    <div class="replay-card current">
-      <div class="replay-title">What Changed?</div>
-      <div class="replay-desc">${escapeReplayText(current.description || "")}</div>
-      <div class="replay-source">CURRENT: ${escapeReplayText(current.date || "")} · ${escapeReplayText(current.type || "EVENT")}</div>
-    </div>
-    <div class="replay-card">
-      <div class="replay-title">Investigation Trace</div>
-      <div class="replay-desc">A new event entered the chronological evidence stream at this point. Review the source record before drawing investigative conclusions.</div>
-    </div>
-  `;
+  if (!replayEvents.length) return;
+  replayPlaying = true;
+  btn.textContent = "⏸";
+  btn.classList.add("playing");
+  replayTimer = setInterval(() => {
+    let idx = Number(slider.value) + 1;
+    if (idx > replayEvents.length - 1) idx = 0; // loop for a continuous cinematic demo
+    renderReplayState(idx);
+  }, 2800);
 }
+
+document.getElementById("replay-play-btn")?.addEventListener("click", toggleReplayPlay);
 
 async function loadInvestigationReplay() {
   const slider = document.getElementById("replay-slider");
@@ -1516,7 +1811,10 @@ async function loadInvestigationReplay() {
     slider.value = "0";
     renderReplayState(0);
 
-    slider.oninput = () => renderReplayState(Number(slider.value));
+    slider.oninput = () => {
+      if (replayPlaying) toggleReplayPlay(); // manual scrub stops auto-play
+      renderReplayState(Number(slider.value));
+    };
   } catch (e) {
     position.textContent = "—";
     summary.textContent = "Replay unavailable.";
