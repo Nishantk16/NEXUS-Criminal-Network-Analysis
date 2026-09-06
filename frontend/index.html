@@ -5,38 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NEXUS — Criminal Network Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="lib/vis-network.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3V6B0f1i4yQ8T7dG6h0bX8o1b9xJw=" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <style>
   :root {
-    --bg: #0B0F14;
-    --panel: #121922;
-    --panel-2: #161E28;
-    --line: #1E2833;
-    --line-soft: #182028;
-    --text: #E6EDF3;
-    --text-dim: #8B98A5;
-    --text-faint: #59636E;
-    --teal: #3FA7A0;
-    --teal-dim: #2A6E68;
-    --amber: #E8A33D;
-    --red: #E8544B;
-    --red-dim: #4A2320;
+    --bg: #0A0C10;
+    --panel: #14181F;
+    --panel-2: #191E27;
+    --line: #262C36;
+    --line-soft: #1D222B;
+    --text: #ECEDEF;
+    --text-dim: #98A0AC;
+    --text-faint: #565E6B;
+    --teal: #C9A24B;
+    --teal-dim: #7A5F2C;
+    --data: #4C9B93;
+    --data-dim: #2E5F59;
+    --amber: #D98F3B;
+    --red: #C33B3B;
+    --red-dim: #3D1A1A;
   }
 
   * { box-sizing: border-box; }
 
   body {
     margin: 0;
+    position: relative;
     background: var(--bg);
     background-image:
-      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(63,167,160,0.07), transparent),
-      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(232,163,61,0.05), transparent);
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(76,155,147,0.07), transparent),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(217,143,59,0.05), transparent);
     color: var(--text);
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+    z-index: 1;
   }
 
   /* ===== Header ===== */
@@ -49,6 +63,9 @@
     background: rgba(18,25,34,0.6);
   }
 
+  .case-id-wrap { display: flex; align-items: center; gap: 14px; }
+  .official-seal { color: var(--teal); opacity: 0.9; flex-shrink: 0; }
+
   .case-id {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
@@ -57,12 +74,13 @@
   }
 
   .title-block h1 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 26px;
-    letter-spacing: 0.01em;
-    margin: 2px 0 0 0;
-    text-transform: uppercase;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 28px;
+    letter-spacing: 0;
+    margin: 3px 0 0 0;
+    text-transform: none;
   }
 
   .title-block h1 span { color: var(--teal); }
@@ -122,7 +140,7 @@
     border-bottom: 1px solid var(--line-soft);
   }
   .search-result-item:last-child { border-bottom: none; }
-  .search-result-item:hover { background: rgba(63,167,160,0.1); }
+  .search-result-item:hover { background: rgba(76,155,147,0.1); }
   .search-result-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
   .search-result-type { margin-left: auto; color: var(--text-faint); font-size: 10px; }
 
@@ -181,10 +199,10 @@
     margin-bottom: 6px;
   }
   .detail-name {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Fraunces', serif;
     font-weight: 700;
-    font-size: 24px;
-    text-transform: uppercase;
+    font-size: 26px;
+    text-transform: none;
   }
   .detail-rank {
     margin-top: 10px;
@@ -196,7 +214,7 @@
     margin-top: 16px;
     width: 100%;
     background: var(--teal-dim);
-    color: #E6EDF3;
+    color: #ECEDEF;
     border: 1px solid var(--teal);
     font-family: 'JetBrains Mono', monospace;
     font-size: 11.5px;
@@ -254,8 +272,8 @@
     inset: 0;
     background: var(--bg);
     background-image:
-      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(63,167,160,0.08), transparent),
-      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(232,163,61,0.06), transparent);
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(76,155,147,0.08), transparent),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(217,143,59,0.06), transparent);
     z-index: 200;
     display: flex;
     align-items: center;
@@ -278,10 +296,11 @@
     margin-bottom: 4px;
   }
   .login-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 22px;
-    text-transform: uppercase;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 24px;
+    text-transform: none;
     text-align: center;
     margin-bottom: 26px;
   }
@@ -419,7 +438,7 @@
 
   /* ===== Ask NEXUS (AI Investigator) ===== */
   #ai-investigator-panel {
-    background: linear-gradient(180deg, rgba(63,167,160,0.06), rgba(18,25,34,0.4));
+    background: linear-gradient(180deg, rgba(76,155,147,0.06), rgba(18,25,34,0.4));
     border: 1px solid var(--teal-dim);
     border-radius: 6px;
     margin: 16px 16px 0 16px;
@@ -648,16 +667,16 @@
     overflow: hidden;
     border: 1px solid var(--line);
     border-radius: 4px;
-    background: #0f151c;
+    background: #0D1116;
   }
-  #case-map { width: 100%; height: 340px; background: #0f151c; }
+  #case-map { width: 100%; height: 340px; background: #0D1116; }
   .map-overlay-badge {
     position: absolute;
     z-index: 500;
     left: 10px;
     top: 10px;
     padding: 6px 9px;
-    border: 1px solid rgba(63,167,160,.45);
+    border: 1px solid rgba(76,155,147,.45);
     background: rgba(11,15,20,.88);
     color: var(--teal);
     font-family: 'JetBrains Mono', monospace;
@@ -677,8 +696,8 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 9px;
   }
-  .leaflet-container { font: 11px 'Inter', sans-serif; background: #0f151c; }
-  .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: #121922; color: var(--text); border: 1px solid var(--line); }
+  .leaflet-container { font: 11px 'Inter', sans-serif; background: #0D1116; }
+  .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: #14181F; color: var(--text); border: 1px solid var(--line); }
   .leaflet-popup-content { margin: 12px 14px; }
   .leaflet-control-zoom a { background: var(--panel) !important; color: var(--text) !important; border-color: var(--line) !important; }
   .leaflet-control-attribution { background: rgba(11,15,20,.78) !important; color: var(--text-faint); font-size: 8px; }
@@ -706,22 +725,44 @@
   }
 
   .eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text-faint);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text);
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
   }
-  .eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+  .eyebrow::before {
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: var(--teal);
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
 
   /* ===== Graph panel ===== */
   #graph-panel { padding: 0; position: relative; }
   #graph-panel .eyebrow { padding: 22px 28px 0 28px; margin-bottom: 10px; }
-  #network { width: 100%; height: 560px; background: radial-gradient(ellipse at center, #0E141B 0%, #0A0E13 100%); }
+  .graph-wrap { position: relative; }
+  #network { width: 100%; height: 560px; background: radial-gradient(ellipse at center, #10151C 0%, #0A0D12 100%); }
+  .radar-sweep {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: conic-gradient(from 0deg, rgba(76,155,147,0) 0deg, rgba(76,155,147,0.15) 16deg, rgba(76,155,147,0) 38deg);
+    mix-blend-mode: screen;
+    animation: sweep 7s linear infinite;
+    opacity: 0.75;
+  }
+  @keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   .legend {
     position: absolute;
     bottom: 16px;
@@ -772,7 +813,7 @@
   /* ===== Alerts ===== */
   .alert-card {
     border: 1px solid var(--red-dim);
-    background: linear-gradient(180deg, rgba(232,84,75,0.08), rgba(232,84,75,0.02));
+    background: linear-gradient(180deg, rgba(195,59,59,0.08), rgba(195,59,59,0.02));
     border-radius: 4px;
     padding: 13px 15px;
     margin-bottom: 10px;
@@ -804,7 +845,7 @@
     border-radius: 3px;
     border: 1px solid var(--teal-dim);
     color: var(--teal);
-    background: rgba(63,167,160,0.08);
+    background: rgba(76,155,147,0.08);
   }
   .chip.loc { border-color: var(--line); color: var(--text-dim); background: transparent; }
 
@@ -845,8 +886,8 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
   }
-  .verify-banner.ok { background: rgba(63,167,160,0.1); border: 1px solid var(--teal-dim); color: var(--teal); }
-  .verify-banner.bad { background: rgba(232,84,75,0.1); border: 1px solid var(--red-dim); color: var(--red); }
+  .verify-banner.ok { background: rgba(76,155,147,0.1); border: 1px solid var(--teal-dim); color: var(--teal); }
+  .verify-banner.bad { background: rgba(195,59,59,0.1); border: 1px solid var(--red-dim); color: var(--red); }
 
   /* ===== Risk score badge ===== */
   .risk-badge {
@@ -860,9 +901,18 @@
     border: 1px solid;
     white-space: nowrap;
   }
-  .risk-badge.High { color: var(--red); border-color: var(--red); background: rgba(232,84,75,0.12); }
-  .risk-badge.Medium { color: var(--amber); border-color: var(--amber); background: rgba(232,163,61,0.1); }
-  .risk-badge.Low { color: var(--teal); border-color: var(--teal-dim); background: rgba(63,167,160,0.08); }
+  .risk-badge.High {
+    color: var(--red);
+    border-color: var(--red);
+    background: rgba(195,59,59,0.14);
+    animation: badgeGlow 2.2s ease-in-out infinite;
+  }
+  @keyframes badgeGlow {
+    0%, 100% { box-shadow: 0 0 0 rgba(195,59,59,0); }
+    50% { box-shadow: 0 0 10px rgba(195,59,59,0.55); }
+  }
+  .risk-badge.Medium { color: var(--amber); border-color: var(--amber); background: rgba(217,143,59,0.1); }
+  .risk-badge.Low { color: var(--teal); border-color: var(--teal-dim); background: rgba(76,155,147,0.08); }
 
 
   /* ===== Executive command bar ===== */
@@ -871,32 +921,45 @@
   .command-cell:after{content:"";position:absolute;right:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,var(--teal-dim),transparent);opacity:.55}
   .command-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px}
   .command-value{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);font-weight:600}
-  .mini-status{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 9px rgba(63,167,160,.55)}
-  .mini-status.amber{background:var(--amber);box-shadow:0 0 9px rgba(232,163,61,.45)}
+  .mini-status{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 9px rgba(76,155,147,.55)}
+  .mini-status.amber{background:var(--amber);box-shadow:0 0 9px rgba(217,143,59,.45)}
   .topline{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 14px;margin:12px 12px 0;border:1px solid var(--line);background:rgba(14,20,27,.82);border-radius:4px;box-shadow:0 8px 18px rgba(0,0,0,.16)}
   .topline-main{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--text-dim)}
   .topline-main strong{color:var(--text)}
   .topline-meta{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-faint);text-align:right}
   .eyebrow .live-tag{color:var(--teal);border:1px solid var(--teal-dim);padding:3px 7px;border-radius:3px;letter-spacing:.08em}
-  .replay-hero{display:grid;grid-template-columns:1fr auto;gap:16px;padding:16px;background:linear-gradient(180deg,rgba(63,167,160,.07),rgba(18,25,34,.72));border:1px solid var(--teal-dim);border-radius:5px;margin-bottom:12px}
+  .replay-hero{display:grid;grid-template-columns:1fr auto;gap:16px;padding:16px;background:linear-gradient(180deg,rgba(76,155,147,.07),rgba(18,25,34,.72));border:1px solid var(--teal-dim);border-radius:5px;margin-bottom:12px}
   .replay-kicker{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--teal);letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}
-  .replay-headline{font-family:'Barlow Condensed',sans-serif;font-size:22px;text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px}
+  .replay-headline{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:23px;text-transform:none;letter-spacing:0;margin-bottom:4px}
   .replay-caption{color:var(--text-dim);font-size:11px;line-height:1.55;max-width:720px}
   .replay-index-badge{align-self:start;min-width:78px;text-align:center;padding:9px 10px;border:1px solid var(--line);background:rgba(11,15,20,.55);border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-faint)}
   .replay-index-badge strong{display:block;color:var(--text);font-size:17px;margin-bottom:2px}
-  .system-note{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-faint);padding:9px 12px;border-left:2px solid var(--teal-dim);background:rgba(63,167,160,.04);line-height:1.55}
+  .system-note{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-faint);padding:9px 12px;border-left:2px solid var(--teal-dim);background:rgba(76,155,147,.04);line-height:1.55}
   .replay-controls{padding:12px 0}
   .replay-controls input[type=range]{accent-color:var(--teal)}
   @media(max-width:980px){.command-bar{grid-template-columns:repeat(3,minmax(0,1fr))}.topline{flex-direction:column;align-items:flex-start}.topline-meta{text-align:left}}
   @media(max-width:620px){.command-bar{grid-template-columns:1fr}}
+
+  .redact-stamp {
+    display: inline-block;
+    background: repeating-linear-gradient(135deg, #000 0 4px, #0d0d0d 4px 8px);
+    color: var(--teal);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    padding: 1px 6px;
+    border-radius: 2px;
+    border: 1px solid #2a2a2a;
+    vertical-align: middle;
+  }
 
   ::-webkit-scrollbar { height: 6px; width: 6px; }
   ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
 
   .realtime-event { display:flex; gap:10px; padding:9px 0; border-bottom:1px solid var(--line-soft); font-family:'JetBrains Mono',monospace; font-size:10.5px; }
   .realtime-event:last-child { border-bottom:none; }
-  .realtime-dot { width:7px; height:7px; border-radius:50%; margin-top:4px; flex:0 0 auto; background:var(--teal); box-shadow:0 0 8px rgba(63,167,160,.45); }
-  .realtime-dot.high { background:var(--red); box-shadow:0 0 8px rgba(232,84,75,.45); }
+  .realtime-dot { width:7px; height:7px; border-radius:50%; margin-top:4px; flex:0 0 auto; background:var(--teal); box-shadow:0 0 8px rgba(76,155,147,.45); }
+  .realtime-dot.high { background:var(--red); box-shadow:0 0 8px rgba(195,59,59,.45); }
   .realtime-time { color:var(--text-faint); font-size:9px; margin-top:3px; }
   .realtime-source { color:var(--amber); font-size:9px; margin-top:3px; }
 
@@ -906,6 +969,13 @@
 
 <div id="login-screen">
   <div class="login-card">
+    <div style="display:flex;justify-content:center;margin-bottom:14px;color:var(--teal);opacity:0.9">
+      <svg viewBox="0 0 40 40" width="38" height="38">
+        <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="1"/>
+        <circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="0.5"/>
+        <text x="20" y="24" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="700" fill="currentColor">NCRB</text>
+      </svg>
+    </div>
     <div class="login-badge">PS-26189 // NCRB — WOMEN SAFETY DIVISION</div>
     <div class="login-title">Investigator <span>Access</span></div>
     <form id="login-form">
@@ -925,9 +995,18 @@
 </div>
 
 <header>
-  <div class="title-block">
-    <div class="case-id">PS-26189 // NCRB — WOMEN SAFETY DIVISION</div>
-    <h1>Criminal <span>Network</span> Analysis</h1>
+  <div class="case-id-wrap">
+    <div class="official-seal">
+      <svg viewBox="0 0 40 40" width="34" height="34">
+        <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="1"/>
+        <circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="0.5"/>
+        <text x="20" y="24" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="700" fill="currentColor">NCRB</text>
+      </svg>
+    </div>
+    <div class="title-block">
+      <div class="case-id">PS-26189 // NCRB — WOMEN SAFETY DIVISION</div>
+      <h1>Criminal <span>Network</span> Analysis</h1>
+    </div>
   </div>
   <div class="search-wrap">
     <input type="text" class="search-input" id="search-input" placeholder="Search suspect, phone, vehicle, location…" autocomplete="off">
@@ -983,11 +1062,14 @@
   <div class="col">
     <section class="panel" id="graph-panel">
       <div class="eyebrow">Entity Relationship Graph</div>
-      <div id="network"></div>
+      <div class="graph-wrap">
+        <div id="network"></div>
+        <div class="radar-sweep"></div>
+      </div>
       <div class="legend">
-        <div class="legend-item"><div class="swatch" style="background:#E8544B"></div>Person</div>
-        <div class="legend-item"><div class="swatch" style="background:#3FA7A0"></div>Location</div>
-        <div class="legend-item"><div class="swatch" style="background:#E8A33D"></div>Vehicle</div>
+        <div class="legend-item"><div class="swatch" style="background:#C33B3B"></div>Person</div>
+        <div class="legend-item"><div class="swatch" style="background:#4C9B93"></div>Location</div>
+        <div class="legend-item"><div class="swatch" style="background:#D98F3B"></div>Vehicle</div>
       </div>
     </section>
 
@@ -1067,6 +1149,11 @@ try { CURRENT_USER = JSON.parse(sessionStorage.getItem("auth_user") || "null"); 
 let REDACT_MODE = sessionStorage.getItem("redact_mode") !== "off"; // defaults ON
 
 const REDACT_AWARE_PATHS = ["/entities", "/graph", "/search", "/entity/", "/report/", "/timeline", "/risk-scores"];
+
+function stampRedactions(str) {
+  if (!str) return str;
+  return String(str).replace(/\[Identity Protected\]/g, '<span class="redact-stamp">REDACTED</span>');
+}
 
 async function fetchJSON(path) {
   const headers = {};
@@ -1178,17 +1265,17 @@ async function loadGraph() {
     const data = await fetchJSON("/graph");
     if (typeof vis === "undefined") throw new Error("vis-network library failed to load from CDN (check internet connection)");
 
-    const colorMap = { Person: "#E8544B", Location: "#3FA7A0", Vehicle: "#E8A33D" };
+    const colorMap = { Person: "#C33B3B", Location: "#4C9B93", Vehicle: "#D98F3B" };
 
     const nodes = new vis.DataSet(data.nodes.map(n => ({
       id: n.id,
       label: n.id,
       color: {
-        background: colorMap[n.type] || "#59636E",
-        border: colorMap[n.type] || "#59636E",
-        highlight: { background: colorMap[n.type] || "#59636E", border: "#E6EDF3" }
+        background: colorMap[n.type] || "#565E6B",
+        border: colorMap[n.type] || "#565E6B",
+        highlight: { background: colorMap[n.type] || "#565E6B", border: "#ECEDEF" }
       },
-      font: { color: "#E6EDF3", face: "JetBrains Mono", size: 12 },
+      font: { color: "#ECEDEF", face: "JetBrains Mono", size: 12 },
       shape: "dot",
       size: 14
     })));
@@ -1200,8 +1287,8 @@ async function loadGraph() {
       from: e.source,
       to: e.target,
       label: e.relation,
-      color: { color: "#2A3542", highlight: "#3FA7A0" },
-      font: { color: "#59636E", size: 9, face: "JetBrains Mono", strokeWidth: 0, background: "#0B0F14" },
+      color: { color: "#262C36", highlight: "#4C9B93" },
+      font: { color: "#565E6B", size: 9, face: "JetBrains Mono", strokeWidth: 0, background: "#0A0C10" },
       arrows: "to",
       smooth: { type: "curvedCW", roundness: 0.15 }
     })));
@@ -1219,7 +1306,7 @@ async function loadGraph() {
     });
   } catch (e) {
     document.getElementById("network").innerHTML =
-      `<div class="empty-note">Graph failed to render:<br><b style="color:#E8544B">${e.message}</b></div>`;
+      `<div class="empty-note">Graph failed to render:<br><b style="color:#C33B3B">${e.message}</b></div>`;
     console.error(e);
   }
 }
@@ -1238,7 +1325,7 @@ async function loadInfluencers() {
     <div class="influencer-row">
       <div class="rank">${String(i + 1).padStart(2, '0')}</div>
       <div style="flex:1">
-        <div class="influencer-name" style="cursor:pointer" data-goto="${p.name}">${p.name}${riskBadge(riskMap[p.name])}</div>
+        <div class="influencer-name" style="cursor:pointer" data-goto="${p.name}">${stampRedactions(p.name)}${riskBadge(riskMap[p.name])}</div>
         <div class="influencer-meta">PAGERANK ${p.pagerank.toFixed(3)} · BETWEEN ${p.betweenness_centrality.toFixed(3)}</div>
       </div>
       ${barCell(p.degree_centrality)}
@@ -1265,7 +1352,7 @@ async function loadAlerts() {
   el.innerHTML = data.map(a => `
     <div class="alert-card">
       <div class="alert-flag">⚠ ${a.flag}${a.confidence ? `<span class="alert-confidence">${Math.round(a.confidence * 100)}% CONFIDENCE</span>` : ""}</div>
-      <div class="alert-body"><b class="conn-name" data-goto="${a.sender}">${a.sender}</b> → <b class="conn-name" data-goto="${a.receiver}">${a.receiver}</b> — ₹${Number(a.amount).toLocaleString('en-IN')} repeated</div>
+      <div class="alert-body"><b class="conn-name" data-goto="${a.sender}">${stampRedactions(a.sender)}</b> → <b class="conn-name" data-goto="${a.receiver}">${stampRedactions(a.receiver)}</b> — ₹${Number(a.amount).toLocaleString('en-IN')} repeated</div>
       <div class="alert-meta">${a.repeat_count}× identical transfers detected</div>
       ${a.reasoning ? `<div class="alert-reasoning">${sanitizeAlertReasoning(a.reasoning)}</div>` : ""}
     </div>
@@ -1282,7 +1369,7 @@ async function loadCommunities() {
   const groups = Object.values(data).filter(g => g.length > 1);
   if (!groups.length) { el.innerHTML = '<div class="empty-note">No multi-member clusters detected in the current evidence set.</div>'; return; }
   el.innerHTML = groups.map((members, i) => `
-    <div class="community-group">${members.map(m => `<span class="chip">${m}</span>`).join("")}</div>
+    <div class="community-group">${members.map(m => `<span class="chip">${stampRedactions(m)}</span>`).join("")}</div>
   `).join("");
 }
 
@@ -1296,7 +1383,7 @@ async function loadTimeline() {
         <div class="timeline-dot-col"><div class="timeline-dot ${e.type}"></div></div>
         <div class="timeline-content">
           <div class="timeline-date">${e.date} · ${e.type}</div>
-          <div class="timeline-desc">${e.description}</div>
+          <div class="timeline-desc">${stampRedactions(e.description)}</div>
         </div>
       </div>
     `).join("");
@@ -1362,19 +1449,19 @@ async function loadHeatmap() {
 
       const marker = L.circleMarker([lat, lng], {
         radius,
-        color: "#3FA7A0",
+        color: "#4C9B93",
         weight: 2,
         opacity: 0.95,
-        fillColor: "#3FA7A0",
+        fillColor: "#4C9B93",
         fillOpacity
       }).addTo(map);
 
       marker.bindPopup(`
         <div style="font-family:'JetBrains Mono',monospace;min-width:150px">
-          <div style="font-size:12px;color:#E6EDF3;font-weight:700">${escapeMapText(p.name)}</div>
-          <div style="margin-top:6px;font-size:10px;color:#8B98A5">EVIDENCE MENTIONS</div>
-          <div style="margin-top:2px;font-size:15px;color:#3FA7A0;font-weight:700">${mentions}</div>
-          <div style="margin-top:6px;font-size:9px;color:#59636E">${lat.toFixed(4)}, ${lng.toFixed(4)}</div>
+          <div style="font-size:12px;color:#ECEDEF;font-weight:700">${escapeMapText(p.name)}</div>
+          <div style="margin-top:6px;font-size:10px;color:#98A0AC">EVIDENCE MENTIONS</div>
+          <div style="margin-top:2px;font-size:15px;color:#4C9B93;font-weight:700">${mentions}</div>
+          <div style="margin-top:6px;font-size:9px;color:#565E6B">${lat.toFixed(4)}, ${lng.toFixed(4)}</div>
         </div>
       `);
 
@@ -1393,7 +1480,16 @@ async function loadHeatmap() {
     }
 
     // Give Leaflet a resize pass after the surrounding panel finishes layout.
-    setTimeout(() => map.invalidateSize(), 50);
+    // A single short timeout isn't reliable here: web fonts, the command bar,
+    // and the AI panel above can still be reflowing the page when this fires,
+    // which is what causes the tiled/broken map. Retry a few times, and keep
+    // watching the container in case the layout shifts again later.
+    [50, 150, 350, 700, 1200].forEach(delay => setTimeout(() => map.invalidateSize(), delay));
+    if (window.ResizeObserver) {
+      if (window._caseMapResizeObserver) window._caseMapResizeObserver.disconnect();
+      window._caseMapResizeObserver = new ResizeObserver(() => map.invalidateSize());
+      window._caseMapResizeObserver.observe(mapEl);
+    }
   } catch (e) {
     console.error("Geographic map:", e);
     wrap.innerHTML = '<div class="empty-note">Could not load geographic data.</div>';
@@ -1436,7 +1532,7 @@ function renderChain(chain) {
     `✓ ${chain.length} blocks verified — evidence chain intact, no tampering detected`;
 }
 
-const typeColor = { Person: "#E8544B", Location: "#3FA7A0", Vehicle: "#E8A33D" };
+const typeColor = { Person: "#C33B3B", Location: "#4C9B93", Vehicle: "#D98F3B" };
 
 function debounce(fn, delay) {
   let t;
@@ -1453,8 +1549,8 @@ async function runSearch(query) {
     } else {
       resultsEl.innerHTML = matches.map(m => `
         <div class="search-result-item" data-name="${m.actual_name || m.id}">
-          <div class="search-result-dot" style="background:${typeColor[m.type] || '#59636E'}"></div>
-          ${m.id}
+          <div class="search-result-dot" style="background:${typeColor[m.type] || '#565E6B'}"></div>
+          ${stampRedactions(m.id)}
           <span class="search-result-type">${m.type}</span>
         </div>
       `).join("");
@@ -1486,7 +1582,7 @@ async function openEntityDetail(name) {
       <div class="detail-header">
         <button class="detail-close" id="detail-close-btn">✕</button>
         <div class="detail-type-tag">${d.type}</div>
-        <div class="detail-name">${d.name}${riskBadge(d.risk)}</div>
+        <div class="detail-name">${stampRedactions(d.name)}${riskBadge(d.risk)}</div>
         ${d.rank ? `<div class="detail-rank">RANK #${d.rank.rank} · PAGERANK ${d.rank.pagerank.toFixed(3)} · DEGREE ${d.rank.degree_centrality.toFixed(3)}</div>` : ""}
         ${d.risk && d.risk.bridges_networks ? `<div class="detail-rank" style="color:var(--red)">⚠ BRIDGES MULTIPLE NETWORKS</div>` : ""}
         <button class="report-btn" id="download-report-btn" data-name="${d.name}">⬇ Download Case Report (PDF)</button>
@@ -1497,7 +1593,7 @@ async function openEntityDetail(name) {
       html += `<div class="detail-section"><div class="detail-section-title">Direct Connections (${d.connections.length})</div>`;
       html += d.connections.map(c => `
         <div class="conn-row">
-          <span class="conn-name" data-goto="${c.name}">${c.name}</span>
+          <span class="conn-name" data-goto="${c.name}">${stampRedactions(c.name)}</span>
           <span class="conn-relation">${c.direction === 'incoming' ? '←' : '→'} ${c.relation.replace(/_/g, ' ')}</span>
         </div>
       `).join("");
@@ -1508,7 +1604,7 @@ async function openEntityDetail(name) {
       html += `<div class="detail-section"><div class="detail-section-title">Call Records (${d.call_records.length})</div>`;
       html += d.call_records.map(c => `
         <div class="record-row">
-          <span>${c.direction === 'outgoing' ? '→' : '←'} ${c.with}</span>
+          <span>${c.direction === 'outgoing' ? '→' : '←'} ${stampRedactions(c.with)}</span>
           <span class="record-meta">${c.timestamp.split(' ')[0]} · ${c.duration_sec}s · ${c.location}</span>
         </div>
       `).join("");
@@ -1519,7 +1615,7 @@ async function openEntityDetail(name) {
       html += `<div class="detail-section"><div class="detail-section-title">Financial Transactions (${d.transactions.length})</div>`;
       html += d.transactions.map(t => `
         <div class="record-row">
-          <span>${t.direction === 'sent' ? '→' : '←'} ${t.with}</span>
+          <span>${t.direction === 'sent' ? '→' : '←'} ${stampRedactions(t.with)}</span>
           <span class="record-meta">₹${Number(t.amount).toLocaleString('en-IN')} · ${t.mode} · ${t.timestamp.split(' ')[0]}</span>
         </div>
       `).join("");
@@ -1528,7 +1624,7 @@ async function openEntityDetail(name) {
 
     if (d.fir_mentions && d.fir_mentions.length) {
       html += `<div class="detail-section"><div class="detail-section-title">FIR Mentions (${d.fir_mentions.length})</div>`;
-      html += d.fir_mentions.map(f => `<div class="fir-snippet">${f}</div>`).join("");
+      html += d.fir_mentions.map(f => `<div class="fir-snippet">${stampRedactions(f)}</div>`).join("");
       html += `</div>`;
     }
 
@@ -1881,7 +1977,7 @@ async function boot() {
     loadNeo4jStatus();
   } catch (e) {
     setStatus(false, "Engine offline — start uvicorn on :8001");
-    document.getElementById("network").innerHTML = '<div class="empty-note">Cannot reach API at ' + API_BASE + '.<br>Run: <b style="color:#E8A33D">uvicorn src.api.main:app --host 127.0.0.1 --port 8001</b></div>';
+    document.getElementById("network").innerHTML = '<div class="empty-note">Cannot reach API at ' + API_BASE + '.<br>Run: <b style="color:#D98F3B">uvicorn src.api.main:app --host 127.0.0.1 --port 8001</b></div>';
     document.getElementById("influencers-list").innerHTML = '<div class="empty-note">Engine offline.</div>';
     document.getElementById("alerts-list").innerHTML = '<div class="empty-note">Engine offline.</div>';
     document.getElementById("communities-list").innerHTML = '<div class="empty-note">Engine offline.</div>';
