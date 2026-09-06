@@ -1109,8 +1109,8 @@
     </div>
 
     <div class="focus-panel">
-      <div class="upgrade-kicker" style="margin:0">Entity Resolution</div>
-      <div class="upgrade-copy" style="margin-top:4px">Candidate records related to the selected identity.</div>
+      <div class="upgrade-kicker" style="margin:0">Identity Corroboration</div>
+      <div class="upgrade-copy" style="margin-top:4px">Cross-source corroboration from the current case file. Dedicated alias resolution can be added later without faking matches.</div>
       <div class="resolve-grid" id="resolution-grid">
         <div class="resolve-candidate">
           <div class="resolve-score">READY</div>
@@ -1391,6 +1391,12 @@ async function loadGraph() {
       physics: { barnesHut: { gravitationalConstant: -6000, springLength: 140 }, stabilization: { iterations: 120 } },
       interaction: { hover: true }
     });
+
+    // Expose the real graph instance/data so the command-center actions can
+    // highlight a returned threat path without inventing any graph state.
+    window.NEXUS_NETWORK = network;
+    window.NEXUS_GRAPH_NODES = nodes;
+    window.NEXUS_GRAPH_EDGES = edges;
 
     network.on("click", (params) => {
       if (params.nodes.length > 0) {
@@ -2199,21 +2205,33 @@ function focusOpenCase() {
 
 async function focusExplain() {
   if (!NEXUS_FOCUS_ENTITY) return;
+
   try {
     const result = await fetchJSON("/explain/" + encodeURIComponent(NEXUS_FOCUS_ENTITY));
     const ai = document.getElementById("ai-response");
+
     if (ai) {
+      const explanation =
+        result.explanation ||
+        result.summary ||
+        result.reason ||
+        result.message ||
+        JSON.stringify(result);
+
       ai.innerHTML = `
-        <div class="ai-answer">${escapeAiText(result.explanation || result.summary || "Explanation returned.")}</div>
-        <div class="ai-note">Source-backed priority explanation</div>
-        <div class="ai-result-row">
-          <span class="conn-name" data-goto="${escapeAiText(NEXUS_FOCUS_ENTITY)}">${escapeAiText(NEXUS_FOCUS_ENTITY)}</span>
-          <span class="record-meta">CURRENT FOCUS</span>
-        </div>
+        <div class="ai-answer">${escapeAiText(explanation)}</div>
+        <div class="ai-note">Source-backed priority explanation for ${escapeAiText(NEXUS_FOCUS_ENTITY)}</div>
+        ${(Array.isArray(result.evidence) && result.evidence.length)
+          ? result.evidence.slice(0,5).map(ev =>
+              `<div class="fir-snippet">${escapeAiText(typeof ev === "string" ? ev : (ev.evidence || ev.source || JSON.stringify(ev)))}</div>`
+            ).join("")
+          : ""}
       `;
-      attachGotoHandlers(ai);
+
       ai.scrollIntoView({behavior:"smooth", block:"center"});
     }
+
+    showToast("Explanation loaded");
   } catch (e) {
     showToast("Could not explain entity: " + e.message);
   }
@@ -2294,25 +2312,79 @@ loadGraph = async function() {
   if (!container) return;
 };
 
-/* Lightweight path highlighter using vis-network's active selection API when possible.
-   The main graph loader is upgraded in-place below when the network instance is available. */
-const _nexusGraphNetworkSetter = {
-  network: null,
-  nodes: null,
-  edges: null
-};
+/* Real graph highlighter for the path returned by /shortest-path. */
+window.highlightThreatPath = function(path) {
+  const nodes = window.NEXUS_GRAPH_NODES;
+  const edges = window.NEXUS_GRAPH_EDGES;
+  const network = window.NEXUS_NETWORK;
 
-const _nexusFindAndPatchNetwork = () => {
-  /* No-op fallback: path result still renders even if the current vis.js build
-     doesn't expose a global network object. */
+  if (!nodes || !edges || !network || !Array.isArray(path) || !path.length) {
+    showToast("Path found, but graph highlighting is unavailable.");
+    return;
+  }
+
+  const pathSet = new Set(path);
+
+  // Dim everything first.
+  nodes.update(nodes.get().map(n => ({
+    id: n.id,
+    color: {
+      background: pathSet.has(n.id) ? "#2A6E68" : "#202832",
+      border: pathSet.has(n.id) ? "#46d6cb" : "#303a45"
+    },
+    font: {
+      color: pathSet.has(n.id) ? "#E6EDF3" : "#65717d",
+      size: pathSet.has(n.id) ? 14 : 9
+    }
+  })));
+
+  // Highlight only the edges composing the returned path.
+  const pathPairs = new Set();
+  for (let i = 0; i < path.length - 1; i++) {
+    pathPairs.add(`${path[i]}→${path[i + 1]}`);
+    pathPairs.add(`${path[i + 1]}→${path[i]}`);
+  }
+
+  edges.update(edges.get().map(edge => {
+    const onPath = pathPairs.has(`${edge.from}→${edge.to}`) ||
+                   pathPairs.has(`${edge.to}→${edge.from}`);
+    return {
+      id: edge.id,
+      color: { color: onPath ? "#46d6cb" : "#1a222b", highlight: "#ffffff" },
+      width: onPath ? 4 : 1,
+      font: {
+        color: onPath ? "#8fe9e2" : "#4b5662",
+        size: onPath ? 10 : 7
+      }
+    };
+  }));
+
+  network.selectNodes(path);
+  network.fit({
+    nodes: path,
+    animation: { duration: 650, easingFunction: "easeInOutQuad" }
+  });
+
+  showToast(`${path.length - 1} hop path highlighted`);
 };
 
 /* Keep the current dashboard's successful boot intact and load the new brief afterwards. */
 const _nexusOriginalBoot = boot;
 boot = async function() {
   await _nexusOriginalBoot();
-  loadCommandBrief().then(loadFocusCaseEvidence);
+  if (AUTH_TOKEN) {
+    await loadCommandBrief();
+    await loadFocusCaseEvidence();
+  }
 };
+
+/* The original page calls boot() before this upgrade script is parsed.
+   Run the new command brief once immediately when an existing session is present. */
+if (AUTH_TOKEN) {
+  loadCommandBrief().then(loadFocusCaseEvidence).catch(err =>
+    console.warn("Initial command brief:", err)
+  );
+}
 </script>
 
 </body>
