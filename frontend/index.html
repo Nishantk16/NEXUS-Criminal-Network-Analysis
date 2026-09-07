@@ -535,18 +535,6 @@
   .ai-result-row:last-child { border-bottom: none; }
   .ai-path { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
   .ai-arrow { color: var(--text-faint); }
-
-  .ai-command-card{margin-top:10px;border:1px solid var(--teal-dim);background:linear-gradient(180deg,rgba(63,167,160,.07),rgba(18,25,34,.92));border-radius:5px;padding:12px}
-  .ai-command-kicker{font:9px 'JetBrains Mono';color:var(--teal);letter-spacing:.12em;text-transform:uppercase}
-  .ai-command-name{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px;font-family:'Barlow Condensed',sans-serif;font-size:24px;text-transform:uppercase}
-  .ai-score{font:700 15px 'JetBrains Mono';color:var(--amber)}
-  .ai-signal-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:9px}
-  .ai-signal{padding:7px 8px;border:1px solid var(--line);background:rgba(11,15,20,.62);border-radius:4px}.ai-signal span{display:block;font:8px 'JetBrains Mono';color:var(--text-faint);text-transform:uppercase}.ai-signal strong{display:block;margin-top:3px;font:700 12px 'JetBrains Mono'}
-  .ai-evidence-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.ai-evidence-chip{font:8px 'JetBrains Mono';padding:4px 6px;border:1px solid var(--line);border-radius:3px;color:var(--amber);background:rgba(232,163,61,.05)}
-  .ai-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.ai-action{border:1px solid var(--line);background:var(--panel-2);color:var(--text);border-radius:4px;padding:6px 8px;font:700 8px 'JetBrains Mono';text-transform:uppercase}.ai-action.primary{background:var(--teal);border-color:var(--teal);color:#06110F}
-  .ai-path-card{margin-top:10px;border:1px solid var(--teal-dim);background:rgba(63,167,160,.045);border-radius:5px;padding:10px}.ai-hop-meta{font:8px 'JetBrains Mono';color:var(--text-faint);text-transform:uppercase}.ai-path-line{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:7px}.ai-path-node{font:8px 'JetBrains Mono';padding:4px 7px;border:1px solid var(--teal-dim);color:var(--teal);border-radius:3px;background:rgba(63,167,160,.07)}.ai-path-arrow{color:var(--text-faint)}
-  @media(max-width:700px){.ai-signal-grid{grid-template-columns:1fr 1fr}}
-
   .ai-thinking { display: flex; gap: 5px; padding: 14px; }
   .ai-thinking span {
     width: 7px; height: 7px; border-radius: 50%;
@@ -965,33 +953,21 @@
   .realtime-source { color:var(--amber); font-size:10.6px; margin-top:3px; }
 
 
-/* ===== NEXUS COMMAND-CENTER UPGRADE ===== */
-.upgrade-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:12px;margin:16px 16px 0}
-.upgrade-card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(20,24,31,.98),rgba(10,12,16,.98));border-radius:6px;padding:16px;box-shadow:0 14px 40px rgba(0,0,0,.18)}
-.upgrade-card.accent{border-color:var(--teal-dim);background:linear-gradient(180deg,rgba(76,155,147,.08),rgba(20,24,31,.94))}
-.upgrade-title{font-family:'Fraunces',serif;font-style:italic;font-size:20px;font-weight:600}
-.upgrade-kicker{font:10px 'JetBrains Mono';color:var(--teal);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
-.upgrade-copy{font-size:12.5px;color:var(--text-dim);line-height:1.55}
-.brief-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);margin-top:12px;border:1px solid var(--line)}
-.brief-metric{background:var(--panel-2);padding:11px}.brief-metric strong{display:block;font:700 20px 'JetBrains Mono'}.brief-metric span{display:block;font:9px 'JetBrains Mono';color:var(--text-faint);text-transform:uppercase;margin-top:4px}
-.action-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
-.action-btn{border:1px solid var(--line);background:var(--panel-2);color:var(--text);border-radius:4px;padding:8px 10px;font:600 10px 'JetBrains Mono';text-transform:uppercase}
-.action-btn.primary{background:var(--teal);border-color:var(--teal);color:#06110F}
-.action-btn:hover{border-color:var(--teal-dim);color:var(--teal)}
-.focus-panel{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:5px;background:rgba(11,15,20,.7)}
-.focus-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.focus-box{padding:10px;border:1px solid var(--line-soft);background:var(--panel);border-radius:4px}
-.focus-label{font:9px 'JetBrains Mono';color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em}
-.focus-value{margin-top:4px;font:700 17px 'JetBrains Mono'}
-.score-track{height:7px;background:#252c35;border-radius:6px;overflow:hidden;margin-top:7px}.score-fill{height:100%;background:var(--teal);width:0;transition:width .4s}
-.trace-panel{margin-top:12px}.trace-form{display:grid;grid-template-columns:1fr 1fr auto;gap:7px;margin-top:9px}.trace-input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);padding:9px;border-radius:4px;outline:0;font:10.5px 'JetBrains Mono'}.trace-input:focus{border-color:var(--teal-dim)}
-.trace-result{display:none;margin-top:9px;padding:10px;border-left:2px solid var(--teal);background:rgba(76,155,147,.05);border-radius:3px}
-.trace-chain{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:7px}.trace-node{font:9px 'JetBrains Mono';padding:4px 7px;border:1px solid var(--teal-dim);color:var(--teal);border-radius:3px;background:rgba(76,155,147,.06)}.trace-arrow{color:var(--text-faint)}
-.resolve-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.resolve-candidate{padding:9px;border:1px solid var(--line);border-radius:4px;background:var(--panel-2)}.resolve-score{font:700 12px 'JetBrains Mono';color:var(--amber)}.resolve-reasons{font-size:10px;color:var(--text-dim);line-height:1.5;margin-top:5px}
-.evidence-mini{margin-top:10px}.evidence-mini-row{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--line-soft);font-size:10.5px}.evidence-mini-row:last-child{border-bottom:0}.verified{color:var(--teal);font:9px 'JetBrains Mono'}
-@media(max-width:1050px){.upgrade-grid{grid-template-columns:1fr}.brief-metrics{grid-template-columns:repeat(2,1fr)}.trace-form{grid-template-columns:1fr 1fr}.trace-form .action-btn{grid-column:1/-1}}
-@media(max-width:620px){.brief-metrics,.focus-grid,.resolve-grid{grid-template-columns:1fr}.trace-form{grid-template-columns:1fr}}
-
+  /* ===== AI Investigator 2.0 ===== */
+  .ai-intel-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:10px;margin-top:10px}
+  .ai-card{border:1px solid var(--line);background:rgba(11,15,20,.72);border-radius:4px;padding:12px 14px}
+  .ai-card-title{font-family:'JetBrains Mono',monospace;font-size:10.8px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.09em;margin-bottom:9px}
+  .ai-priority{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .ai-priority-score{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--red)}
+  .ai-signal{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--line-soft);font-size:13.2px}
+  .ai-signal:last-child{border-bottom:0}
+  .ai-evidence{border-left:2px solid var(--amber);background:rgba(217,143,59,.045);padding:9px 11px;margin-top:7px;font-size:13.1px;line-height:1.5}
+  .ai-ref{font-family:'JetBrains Mono',monospace;color:var(--amber);font-size:10.8px;margin-top:4px}
+  .ai-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+  .ai-action{border:1px solid var(--teal-dim);background:rgba(76,155,147,.07);color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:11px;padding:7px 9px;border-radius:3px;cursor:pointer}
+  .ai-action:hover{background:var(--teal-dim);color:var(--text)}
+  .ai-empty{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-faint);padding:8px 0}
+  @media(max-width:760px){.ai-intel-grid{grid-template-columns:1fr}.ai-form{flex-direction:column}.ai-submit{min-height:42px}}
 </style>
 </head>
 <body>
@@ -1066,85 +1042,6 @@
   <div class="topline-main"><strong>CASE WORKSPACE</strong> · PS-26189 · Criminal Network Intelligence</div>
   <div class="topline-meta">DEMO DATASET · INVESTIGATION SUPPORT · HUMAN REVIEW REQUIRED</div>
 </div>
-
-<!-- NEXUS command-center upgrade layer -->
-<section class="upgrade-grid" id="command-center-upgrade">
-  <div class="upgrade-card accent">
-    <div class="upgrade-kicker">00 / Investigation Brief</div>
-    <div class="upgrade-title">Case 26189 — Intelligence Brief</div>
-    <div class="upgrade-copy">
-      Start with the signal, then drill into the network. This command layer connects
-      AI findings, graph evidence, risk, and investigation actions instead of making
-      the investigator hunt across separate panels.
-    </div>
-
-    <div class="brief-metrics">
-      <div class="brief-metric"><strong id="brief-entities">—</strong><span>Entities</span></div>
-      <div class="brief-metric"><strong id="brief-links">—</strong><span>Relationships</span></div>
-      <div class="brief-metric"><strong id="brief-alerts">—</strong><span>Priority Signals</span></div>
-      <div class="brief-metric"><strong id="brief-communities">—</strong><span>Communities</span></div>
-    </div>
-
-    <div class="focus-panel">
-      <div class="upgrade-kicker" style="margin:0">Top investigative signal</div>
-      <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-end">
-        <div>
-          <div class="focus-value" id="focus-name">Awaiting network analysis…</div>
-          <div class="upgrade-copy" id="focus-caption">NEXUS will surface the leading connector from the current graph.</div>
-        </div>
-        <div style="text-align:right">
-          <div class="focus-label">Priority</div>
-          <div class="focus-value" id="focus-score">—</div>
-        </div>
-      </div>
-      <div class="score-track"><div class="score-fill" id="focus-score-fill"></div></div>
-      <div class="action-row">
-        <button class="action-btn primary" id="focus-open">OPEN CASE FILE</button>
-        <button class="action-btn" id="focus-explain">WHY THIS ENTITY?</button>
-        <button class="action-btn" id="focus-trace">TRACE FROM HERE</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="upgrade-card">
-    <div class="upgrade-kicker">00A / Evidence Convergence</div>
-    <div class="upgrade-title">One entity · many sources</div>
-    <div class="upgrade-copy">
-      Inspect how FIR, communication and financial records converge around the selected
-      entity. This makes the multi-source fusion requirement visible to the judge.
-    </div>
-    <div class="evidence-mini" id="evidence-convergence">
-      <div class="evidence-mini-row"><span>FIR records</span><span class="verified" id="brief-fir">—</span></div>
-      <div class="evidence-mini-row"><span>CDR records</span><span class="verified" id="brief-cdr">—</span></div>
-      <div class="evidence-mini-row"><span>Financial records</span><span class="verified" id="brief-finance">—</span></div>
-      <div class="evidence-mini-row"><span>Locations</span><span class="verified" id="brief-locations">—</span></div>
-    </div>
-
-    <div class="focus-panel">
-      <div class="upgrade-kicker" style="margin:0">Identity Corroboration</div>
-      <div class="upgrade-copy" style="margin-top:4px">Cross-source corroboration from the current case file. Dedicated alias resolution can be added later without faking matches.</div>
-      <div class="resolve-grid" id="resolution-grid">
-        <div class="resolve-candidate">
-          <div class="resolve-score">READY</div>
-          <div class="resolve-reasons">Select an investigator entity to compare aliases, records and connected identifiers.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="upgrade-card trace-panel" id="threat-path-panel">
-  <div class="upgrade-kicker">12 / Threat Path Explorer</div>
-  <div class="upgrade-title">Trace a relationship, then light it up on the graph</div>
-  <div class="upgrade-copy">Find the shortest relationship path between two entities. When a path is returned, NEXUS highlights the participating graph nodes and relationships.</div>
-  <div class="trace-form">
-    <input class="trace-input" id="trace-source" placeholder="Bimal Das">
-    <input class="trace-input" id="trace-target" placeholder="Rajesh Verma">
-    <button class="action-btn primary" id="trace-submit">TRACE CONNECTION</button>
-  </div>
-  <div class="trace-result" id="trace-result"></div>
-</section>
-
 
 <section class="panel" id="ai-investigator-panel">
   <div class="eyebrow">Ask NEXUS <span class="ai-online-tag"><span class="ai-online-dot"></span>AI INVESTIGATOR</span></div>
@@ -1404,11 +1301,18 @@ async function loadGraph() {
       interaction: { hover: true }
     });
 
-    // Expose the real graph instance/data so the command-center actions can
-    // highlight a returned threat path without inventing any graph state.
     window.NEXUS_NETWORK = network;
     window.NEXUS_GRAPH_NODES = nodes;
     window.NEXUS_GRAPH_EDGES = edges;
+    window.highlightThreatPath = function(path) {
+      if (!window.NEXUS_NETWORK || !Array.isArray(path) || !path.length) return;
+      const ids = path.filter(x => nodes.get(x));
+      if (!ids.length) return;
+      const edgeIds = edges.getIds({ filter: e => ids.includes(e.from) && ids.includes(e.to) });
+      window.NEXUS_NETWORK.selectNodes(ids);
+      window.NEXUS_NETWORK.selectEdges(edgeIds);
+      window.NEXUS_NETWORK.focus(ids[0], { scale: 1.15, animation: { duration: 500, easingFunction: 'easeInOutQuad' } });
+    };
 
     network.on("click", (params) => {
       if (params.nodes.length > 0) {
@@ -1807,92 +1711,72 @@ function attachGotoHandlers(root) {
 }
 
 function normalizeAiRisk(risk) {
-  if (!risk) return null;
-  const score = risk.risk_score ?? risk.score ?? 0;
-  const level = risk.risk_level ?? (
-    score >= 70 ? "High" : score >= 40 ? "Medium" : "Low"
-  );
-  return {...risk, risk_score:Number(score), risk_level:level};
+  if (!risk || typeof risk !== "object") return null;
+  const score = Number(risk.risk_score ?? risk.score ?? 0);
+  const level = String(risk.risk_level ?? risk.level ?? (score >= 70 ? "High" : score >= 40 ? "Medium" : "Low"));
+  return { ...risk, risk_score: Number.isFinite(score) ? score : 0, risk_level: level };
+}
+
+function highlightAiPath(path) {
+  if (typeof window.highlightThreatPath === "function") window.highlightThreatPath(path || []);
+  const graph = document.getElementById("graph-panel");
+  if (graph) graph.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function aiActionButtons(entity, path) {
+  const safeEntity = escapeAiText(entity || "");
+  const safePath = JSON.stringify(Array.isArray(path) ? path : []).replace(/</g, "\\u003c");
+  return `<div class="ai-actions">
+    ${entity ? `<button class="ai-action" type="button" data-ai-action="case" data-name="${safeEntity}">OPEN CASE FILE</button>` : ""}
+    ${entity ? `<button class="ai-action" type="button" data-ai-action="why" data-name="${safeEntity}">WHY THIS ENTITY</button>` : ""}
+    ${Array.isArray(path) && path.length ? `<button class="ai-action" type="button" data-ai-action="trace" data-path='${safePath}'>TRACE ON GRAPH</button>` : ""}
+    ${entity ? `<button class="ai-action" type="button" data-ai-action="graph" data-name="${safeEntity}">HIGHLIGHT ON GRAPH</button>` : ""}
+  </div>`;
 }
 
 function renderAiResponse(d) {
   const el = document.getElementById("ai-response");
-  if (!el) return;
-
+  const risk = normalizeAiRisk(d.risk);
+  const entity = d.entity || (d.results?.[0]?.entity) || "";
   let html = `<div class="ai-answer">${escapeAiText(d.answer || "No answer available.")}</div>`;
 
-  if (d.intent === "key_connectors" && Array.isArray(d.results)) {
-    const top = d.results[0];
-    if (top) {
-      const risk = normalizeAiRisk(
-        Array.isArray(window.__NEXUS_RISKS) ? window.__NEXUS_RISKS.find(r => r.name === top.entity) : null
-      );
-      html += `
-        <div class="ai-command-card">
-          <div class="ai-command-kicker">Top network connector</div>
-          <div class="ai-command-name">
-            <span>${escapeAiText(top.entity)}</span>
-            ${risk ? `<span class="ai-score">${risk.risk_score}/100</span>` : ""}
-          </div>
-          <div class="ai-signal-grid">
-            <div class="ai-signal"><span>Degree</span><strong>${Number(top.signals?.degree ?? 0).toFixed(3)}</strong></div>
-            <div class="ai-signal"><span>Betweenness</span><strong>${Number(top.signals?.betweenness ?? 0).toFixed(3)}</strong></div>
-            <div class="ai-signal"><span>PageRank</span><strong>${Number(top.signals?.pagerank ?? 0).toFixed(3)}</strong></div>
-            <div class="ai-signal"><span>Priority</span><strong>${risk ? escapeAiText(risk.risk_level) : "SIGNAL"}</strong></div>
-          </div>
-          <div class="ai-actions">
-            <button class="ai-action primary" data-ai-open="${escapeAiText(top.entity)}">OPEN CASE FILE</button>
-            <button class="ai-action" data-ai-focus="${escapeAiText(top.entity)}">WHY THIS ENTITY?</button>
-            <button class="ai-action" data-ai-trace="${escapeAiText(top.entity)}">TRACE FROM HERE</button>
-          </div>
-        </div>
-      `;
-    }
-
-    html += `<div class="ai-note">Ranked signals</div>`;
-    html += d.results.slice(0,5).map((r,i) => `
-      <div class="ai-result-row">
-        <span class="conn-name" data-goto="${escapeAiText(r.entity)}">${String(i+1).padStart(2,"0")} · ${escapeAiText(r.entity)}</span>
-        <span class="record-meta">BRIDGE ${(Number(r.signals?.betweenness ?? 0)).toFixed(3)}</span>
+  if (risk || entity) {
+    html += `<div class="ai-intel-grid">
+      <div class="ai-card">
+        <div class="ai-card-title">Investigation Priority</div>
+        <div class="ai-priority"><div><strong>${escapeAiText(entity || "Case network")}</strong><div class="record-meta">Grounded in current case graph and evidence</div></div>${risk ? `<div class="ai-priority-score">${risk.risk_score}</div>` : ""}</div>
+        ${risk ? `<div class="ai-signal"><span>Risk level</span><b>${escapeAiText(risk.risk_level)}</b></div>` : ""}
+        ${risk?.bridges_networks ? `<div class="ai-signal"><span>Network role</span><b>BRIDGE ENTITY</b></div>` : ""}
+        ${risk?.degree_centrality != null ? `<div class="ai-signal"><span>Connectivity</span><b>${Number(risk.degree_centrality).toFixed(3)}</b></div>` : ""}
       </div>
+      <div class="ai-card">
+        <div class="ai-card-title">Signal Summary</div>
+        ${risk?.reasons?.length ? risk.reasons.map(x => `<div class="ai-signal"><span>•</span><span style="flex:1">${escapeAiText(x)}</span></div>`).join("") : `<div class="ai-empty">No additional risk factors returned.</div>`}
+      </div>
+    </div>`;
+  }
+
+  if (d.intent === "key_connectors" && Array.isArray(d.results)) {
+    html += `<div class="ai-note">Key connectors</div>`;
+    html += d.results.map(r => `
+      <div class="ai-result-row"><span class="conn-name" data-goto="${escapeAiText(r.entity)}">${escapeAiText(r.entity)}</span><span class="record-meta">PageRank ${r.signals?.pagerank ?? 0} · Betweenness ${r.signals?.betweenness ?? 0}</span></div>
     `).join("");
   }
 
   if (d.intent === "entity_explanation" && d.entity) {
-    const risk = normalizeAiRisk(d.risk);
-    html += `
-      <div class="ai-command-card">
-        <div class="ai-command-kicker">Priority explanation</div>
-        <div class="ai-command-name"><span>${escapeAiText(d.entity)}</span>${risk ? `<span class="ai-score">${risk.risk_score}/100</span>` : ""}</div>
-        <div class="ai-actions">
-          <button class="ai-action primary" data-ai-open="${escapeAiText(d.entity)}">OPEN CASE FILE</button>
-          <button class="ai-action" data-ai-trace="${escapeAiText(d.entity)}">TRACE FROM HERE</button>
-        </div>
-      </div>
-    `;
+    html += `<div class="ai-note">Supporting evidence</div>`;
     if (Array.isArray(d.supporting_evidence) && d.supporting_evidence.length) {
-      html += `<div class="ai-note">Supporting evidence</div><div class="ai-evidence-row">`;
-      html += d.supporting_evidence.map((ev, i) => `<span class="ai-evidence-chip">${escapeAiText(ev.source_type || "FIR")} · REF ${String(i+1).padStart(2,"0")}</span>`).join("");
-      html += `</div>`;
-      html += d.supporting_evidence.map(ev => `<div class="fir-snippet">${escapeAiText(ev.evidence)}</div>`).join("");
+      html += d.supporting_evidence.map((ev, i) => `<div class="ai-evidence"><b>${escapeAiText(ev.source || `EVIDENCE ${i+1}`)}</b><div>${escapeAiText(ev.evidence)}</div>${ev.reference ? `<div class="ai-ref">REF: ${escapeAiText(ev.reference)}</div>` : ""}</div>`).join("");
+    } else {
+      html += `<div class="ai-empty">No direct evidence snippet was returned.</div>`;
     }
-    if (d.note) html += `<div class="ai-note">${escapeAiText(d.note)}</div>`;
+    html += aiActionButtons(d.entity, []);
   }
 
   if (d.intent === "connection" && Array.isArray(d.path) && d.path.length) {
-    html += `
-      <div class="ai-path-card">
-        <div class="ai-hop-meta">${Number(d.hops ?? Math.max(0,d.path.length-1))} HOPS · RELATIONSHIP PATH</div>
-        <div class="ai-path-line">
-          ${d.path.map((p,i) => (i ? `<span class="ai-path-arrow">→</span>` : "") + `<span class="ai-path-node conn-name" data-goto="${escapeAiText(p)}">${escapeAiText(p)}</span>`).join("")}
-        </div>
-        <div class="ai-actions">
-          <button class="ai-action primary" id="ai-highlight-path">HIGHLIGHT ON GRAPH</button>
-          <button class="ai-action" data-ai-source="${escapeAiText(d.source || d.path[0])}" data-ai-target="${escapeAiText(d.target || d.path[d.path.length-1])}">OPEN TRACE</button>
-        </div>
-      </div>
-    `;
-    window.__NEXUS_LAST_AI_PATH = d.path;
+    html += `<div class="ai-note">Relationship path · ${Number(d.hops ?? Math.max(0, d.path.length - 1))} hops</div>`;
+    html += `<div class="ai-path">${d.path.map((p, i) => (i > 0 ? `<span class="ai-arrow">→</span>` : "") + `<span class="chip conn-name" data-goto="${escapeAiText(p)}">${escapeAiText(p)}</span>`).join("")}</div>`;
+    html += aiActionButtons(d.path[0], d.path);
   }
 
   if (d.intent === "entity_network") {
@@ -1902,31 +1786,22 @@ function renderAiResponse(d) {
     if (Array.isArray(d.two_hop_entities) && d.two_hop_entities.length) {
       html += `<div class="ai-note">2-hop reachable entities</div><div class="community-group">${d.two_hop_entities.map(n => `<span class="chip loc conn-name" data-goto="${escapeAiText(n)}">${escapeAiText(n)}</span>`).join("")}</div>`;
     }
+    html += aiActionButtons(d.entity, []);
   }
 
   el.innerHTML = html;
   attachGotoHandlers(el);
-
-  el.querySelectorAll("[data-ai-open]").forEach(btn => btn.addEventListener("click",()=>openEntityDetail(btn.dataset.aiOpen)));
-  el.querySelectorAll("[data-ai-focus]").forEach(btn => btn.addEventListener("click",()=>explainEntity(btn.dataset.aiFocus)));
-  el.querySelectorAll("[data-ai-trace]").forEach(btn => btn.addEventListener("click",()=>{
-    const source = document.getElementById("trace-source");
-    if (source) source.value = btn.dataset.aiTrace;
-    document.getElementById("trace-panel")?.scrollIntoView({behavior:"smooth",block:"center"});
-  }));
-  const highlightBtn = document.getElementById("ai-highlight-path");
-  if (highlightBtn) highlightBtn.addEventListener("click",()=>{
-    if (Array.isArray(window.__NEXUS_LAST_AI_PATH) && typeof window.highlightThreatPath === "function") {
-      window.highlightThreatPath(window.__NEXUS_LAST_AI_PATH);
-    }
+  el.querySelectorAll("[data-ai-action]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const action = btn.dataset.aiAction;
+      const name = btn.dataset.name;
+      if (action === "case" || action === "why") openEntityDetail(name);
+      if (action === "graph") highlightAiPath([name]);
+      if (action === "trace") {
+        try { highlightAiPath(JSON.parse(btn.dataset.path || "[]")); } catch (_) {}
+      }
+    });
   });
-  el.querySelectorAll("[data-ai-source][data-ai-target]").forEach(btn => btn.addEventListener("click",()=>{
-    const s=document.getElementById("trace-source"), t=document.getElementById("trace-target");
-    if(s) s.value=btn.dataset.aiSource;
-    if(t) t.value=btn.dataset.aiTarget;
-    document.getElementById("trace-panel")?.scrollIntoView({behavior:"smooth",block:"center"});
-    runThreatPath();
-  }));
 }
 
 async function askNexus(question) {
@@ -1941,14 +1816,15 @@ async function askNexus(question) {
       headers: { "Content-Type": "application/json", "Authorization": "Bearer " + AUTH_TOKEN },
       body: JSON.stringify({ question }),
     });
-    if (!res.ok) throw new Error("Request failed");
-    const data = await res.json();
-    renderAiResponse(data);
-    if (data.intent === "connection" && Array.isArray(data.path) && data.path.length) {
-      window.__NEXUS_LAST_AI_PATH = data.path;
+    if (res.status === 401) { showLoginScreen(); throw new Error("Session expired"); }
+    if (!res.ok) {
+      let detail = "Request failed";
+      try { const err = await res.json(); detail = err.detail || detail; } catch (_) {}
+      throw new Error(detail);
     }
+    renderAiResponse(await res.json());
   } catch (e) {
-    responseEl.innerHTML = `<div class="empty-note">Could not reach the AI Investigator — is the engine running?</div>`;
+    responseEl.innerHTML = `<div class="empty-note">Could not reach the AI Investigator.<br><span style="color:var(--red)">${escapeAiText(e.message)}</span></div>`;
   } finally {
     btn.disabled = false;
   }
@@ -1969,7 +1845,6 @@ document.querySelectorAll(".ai-chip").forEach(chip => {
     askNexus(chip.dataset.q);
   });
 });
-
 
 let replayEvents = [];
 let replayTimer = null;
@@ -2190,299 +2065,5 @@ async function boot() {
 
 boot();
 </script>
-
-<script id="nexus-upgrade-js">
-/* ===== NEXUS investigation command layer ===== */
-let NEXUS_FOCUS_ENTITY = null;
-let NEXUS_FOCUS_DETAIL = null;
-
-function setText(id, value) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = String(value ?? "—");
-}
-
-function safeNumber(value, fallback=0) {
-  const n = Number(value);
-  return Number.isFinite(n) ? n : fallback;
-}
-
-function updateBriefFromGraph(data) {
-  setText("brief-entities", data.nodes?.length ?? "—");
-  setText("brief-links", data.edges?.length ?? "—");
-}
-
-function updateFocusEntity(name, risk) {
-  if (!name) return;
-  NEXUS_FOCUS_ENTITY = name;
-  setText("focus-name", name);
-  setText(
-    "focus-caption",
-    risk
-      ? `${risk.risk_level} priority signal · score ${risk.risk_score}. Use WHY THIS ENTITY? to inspect the supporting case evidence.`
-      : "Highest-ranked connector from the current network analysis."
-  );
-
-  const score = safeNumber(risk?.risk_score, 0);
-  setText("focus-score", risk ? `${score}/100` : "—");
-  const fill = document.getElementById("focus-score-fill");
-  if (fill) fill.style.width = `${Math.max(0, Math.min(100, score))}%`;
-
-  const source = document.getElementById("trace-source");
-  if (source) source.value = name;
-}
-
-async function loadCommandBrief() {
-  try {
-    const [graph, influencers] = await Promise.all([
-      fetchJSON("/graph"),
-      fetchJSON("/influencers?top_n=1")
-    ]);
-
-    updateBriefFromGraph(graph);
-
-    let risks = [];
-    try { risks = await fetchJSON("/risk-scores"); } catch (_) {}
-    window.__NEXUS_RISKS = risks;
-    setText("brief-alerts", risks.filter(r => r.risk_level === "High").length);
-
-    try {
-      const communities = await fetchJSON("/communities");
-      setText("brief-communities", Object.values(communities).filter(g => Array.isArray(g) && g.length > 1).length);
-    } catch (_) {}
-
-    const top = influencers?.[0];
-    if (!top) return;
-
-    const risk = risks.find(r => r.name === top.name) || null;
-    updateFocusEntity(top.name, risk);
-  } catch (e) {
-    console.warn("Command brief:", e);
-  }
-}
-
-async function loadFocusCaseEvidence() {
-  if (!NEXUS_FOCUS_ENTITY) return;
-  try {
-    const detail = await fetchJSON("/entity/" + encodeURIComponent(NEXUS_FOCUS_ENTITY));
-    NEXUS_FOCUS_DETAIL = detail;
-
-    setText("brief-fir", detail.fir_mentions?.length ?? 0);
-    setText("brief-cdr", detail.call_records?.length ?? 0);
-    setText("brief-finance", detail.transactions?.length ?? 0);
-
-    const uniqueLocations = new Set();
-    (detail.call_records || []).forEach(r => { if (r.location) uniqueLocations.add(r.location); });
-    setText("brief-locations", uniqueLocations.size);
-
-    const grid = document.getElementById("resolution-grid");
-    if (grid) {
-      const name = detail.name || NEXUS_FOCUS_ENTITY;
-      const aliases = [
-        {label: "Current canonical identity", name, score: "PRIMARY", reason: "Resolved entity returned by the case graph."},
-        {label: "Communication-linked identity", name, score: `${detail.call_records?.length ?? 0} RECORDS`, reason: "Phone/communication records associated with this entity."},
-        {label: "Financial-linked identity", name, score: `${detail.transactions?.length ?? 0} RECORDS`, reason: "Financial records associated with this entity."}
-      ];
-      grid.innerHTML = aliases.map(a => `
-        <div class="resolve-candidate">
-          <div class="resolve-score">${escapeAiText(a.score)}</div>
-          <div style="font-weight:600;margin-top:3px">${escapeAiText(a.name)}</div>
-          <div class="resolve-reasons">${escapeAiText(a.reason)}</div>
-        </div>
-      `).join("");
-    }
-  } catch (e) {
-    console.warn("Focus evidence:", e);
-  }
-}
-
-function focusOpenCase() {
-  if (!NEXUS_FOCUS_ENTITY) return;
-  openEntityDetail(NEXUS_FOCUS_ENTITY);
-}
-
-async function focusExplain() {
-  if (!NEXUS_FOCUS_ENTITY) return;
-
-  try {
-    const result = await fetchJSON("/explain/" + encodeURIComponent(NEXUS_FOCUS_ENTITY));
-    const ai = document.getElementById("ai-response");
-
-    if (ai) {
-      const explanation =
-        result.explanation ||
-        result.summary ||
-        result.reason ||
-        result.message ||
-        JSON.stringify(result);
-
-      ai.innerHTML = `
-        <div class="ai-answer">${escapeAiText(explanation)}</div>
-        <div class="ai-note">Source-backed priority explanation for ${escapeAiText(NEXUS_FOCUS_ENTITY)}</div>
-        ${(Array.isArray(result.evidence) && result.evidence.length)
-          ? result.evidence.slice(0,5).map(ev =>
-              `<div class="fir-snippet">${escapeAiText(typeof ev === "string" ? ev : (ev.evidence || ev.source || JSON.stringify(ev)))}</div>`
-            ).join("")
-          : ""}
-      `;
-
-      ai.scrollIntoView({behavior:"smooth", block:"center"});
-    }
-
-    showToast("Explanation loaded");
-  } catch (e) {
-    showToast("Could not explain entity: " + e.message);
-  }
-}
-
-function focusTrace() {
-  if (!NEXUS_FOCUS_ENTITY) return;
-  const source = document.getElementById("trace-source");
-  if (source) source.value = NEXUS_FOCUS_ENTITY;
-  document.getElementById("threat-path-panel")?.scrollIntoView({behavior:"smooth", block:"center"});
-}
-
-document.getElementById("focus-open")?.addEventListener("click", focusOpenCase);
-document.getElementById("focus-explain")?.addEventListener("click", focusExplain);
-document.getElementById("focus-trace")?.addEventListener("click", focusTrace);
-
-async function runThreatPath() {
-  const source = document.getElementById("trace-source")?.value.trim();
-  const target = document.getElementById("trace-target")?.value.trim();
-  const resultEl = document.getElementById("trace-result");
-  const button = document.getElementById("trace-submit");
-
-  if (!source || !target) {
-    showToast("Enter both source and target entities");
-    return;
-  }
-
-  button.disabled = true;
-  button.textContent = "TRACING…";
-
-  try {
-    const result = await fetchJSON(
-      `/shortest-path?source=${encodeURIComponent(source)}&target=${encodeURIComponent(target)}`
-    );
-
-    const path = result.path || result.nodes || result.route || [];
-    resultEl.style.display = "block";
-
-    if (!Array.isArray(path) || !path.length) {
-      resultEl.textContent = "No relationship path returned for the selected entities.";
-      return;
-    }
-
-    resultEl.innerHTML = `
-      <strong>${path.length - 1} HOPS · RELATIONSHIP PATH</strong>
-      <div class="trace-chain">
-        ${path.map((node, i) =>
-          `${i ? '<span class="trace-arrow">→</span>' : ''}<span class="trace-node">${escapeAiText(node)}</span>`
-        ).join("")}
-      </div>
-    `;
-
-    /* Highlight the path when loadGraph's local vis Network is available. */
-    if (typeof window.highlightThreatPath === "function") {
-      window.highlightThreatPath(path);
-    } else {
-      showToast("Path found. Graph loaded separately.");
-    }
-  } catch (e) {
-    resultEl.style.display = "block";
-    resultEl.textContent = e.message;
-  } finally {
-    button.disabled = false;
-    button.textContent = "TRACE CONNECTION";
-  }
-}
-
-document.getElementById("trace-submit")?.addEventListener("click", runThreatPath);
-
-/* Wrap the original graph loader without changing its API contract. */
-const _nexusOriginalLoadGraph = loadGraph;
-loadGraph = async function() {
-  await _nexusOriginalLoadGraph();
-
-  /* Find the vis network created by the original loader by patching click behavior
-     through the DOM-level graph only if the library exposes the instance. */
-  const container = document.getElementById("network");
-  if (!container) return;
-};
-
-/* Real graph highlighter for the path returned by /shortest-path. */
-window.highlightThreatPath = function(path) {
-  const nodes = window.NEXUS_GRAPH_NODES;
-  const edges = window.NEXUS_GRAPH_EDGES;
-  const network = window.NEXUS_NETWORK;
-
-  if (!nodes || !edges || !network || !Array.isArray(path) || !path.length) {
-    showToast("Path found, but graph highlighting is unavailable.");
-    return;
-  }
-
-  const pathSet = new Set(path);
-
-  // Dim everything first.
-  nodes.update(nodes.get().map(n => ({
-    id: n.id,
-    color: {
-      background: pathSet.has(n.id) ? "#2A6E68" : "#202832",
-      border: pathSet.has(n.id) ? "#46d6cb" : "#303a45"
-    },
-    font: {
-      color: pathSet.has(n.id) ? "#E6EDF3" : "#65717d",
-      size: pathSet.has(n.id) ? 14 : 9
-    }
-  })));
-
-  // Highlight only the edges composing the returned path.
-  const pathPairs = new Set();
-  for (let i = 0; i < path.length - 1; i++) {
-    pathPairs.add(`${path[i]}→${path[i + 1]}`);
-    pathPairs.add(`${path[i + 1]}→${path[i]}`);
-  }
-
-  edges.update(edges.get().map(edge => {
-    const onPath = pathPairs.has(`${edge.from}→${edge.to}`) ||
-                   pathPairs.has(`${edge.to}→${edge.from}`);
-    return {
-      id: edge.id,
-      color: { color: onPath ? "#46d6cb" : "#1a222b", highlight: "#ffffff" },
-      width: onPath ? 4 : 1,
-      font: {
-        color: onPath ? "#8fe9e2" : "#4b5662",
-        size: onPath ? 10 : 7
-      }
-    };
-  }));
-
-  network.selectNodes(path);
-  network.fit({
-    nodes: path,
-    animation: { duration: 650, easingFunction: "easeInOutQuad" }
-  });
-
-  showToast(`${path.length - 1} hop path highlighted`);
-};
-
-/* Keep the current dashboard's successful boot intact and load the new brief afterwards. */
-const _nexusOriginalBoot = boot;
-boot = async function() {
-  await _nexusOriginalBoot();
-  if (AUTH_TOKEN) {
-    await loadCommandBrief();
-    await loadFocusCaseEvidence();
-  }
-};
-
-/* The original page calls boot() before this upgrade script is parsed.
-   Run the new command brief once immediately when an existing session is present. */
-if (AUTH_TOKEN) {
-  loadCommandBrief().then(loadFocusCaseEvidence).catch(err =>
-    console.warn("Initial command brief:", err)
-  );
-}
-</script>
-
 </body>
 </html>
