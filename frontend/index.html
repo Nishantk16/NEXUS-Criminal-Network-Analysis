@@ -968,6 +968,165 @@
   .ai-action:hover{background:var(--teal-dim);color:var(--text)}
   .ai-empty{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-faint);padding:8px 0}
   @media(max-width:760px){.ai-intel-grid{grid-template-columns:1fr}.ai-form{flex-direction:column}.ai-submit{min-height:42px}}
+
+  /* ===== AI Explain (entity detail) ===== */
+  .explain-btn {
+    margin-top: 8px;
+    width: 100%;
+    background: var(--data-dim);
+    color: #ECEDEF;
+    border: 1px solid var(--data);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.6px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .explain-btn:hover { background: var(--data); color: #06110F; }
+  .explain-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .explain-priority-score { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; color: var(--red); }
+
+  /* ===== ML Anomaly Detection ===== */
+  .ml-anomaly-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 14.2px;
+  }
+  .ml-anomaly-row:last-child { border-bottom: none; }
+  .ml-score-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    border: 1px solid;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .ml-score-badge.anomaly { color: var(--red); border-color: var(--red); background: rgba(195,59,59,.14); }
+  .ml-score-badge.normal { color: var(--text-faint); border-color: var(--line); }
+  .ml-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.2px;
+    color: var(--text-faint);
+    margin-top: 4px;
+  }
+
+  /* ===== Evidence Hash & Verify ===== */
+  .evidence-block { margin-bottom: 18px; }
+  .evidence-block:last-child { margin-bottom: 0; }
+  .evidence-block-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .evidence-form { display: flex; flex-direction: column; gap: 8px; }
+  .evidence-file-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.4px;
+    padding: 9px 11px;
+    border-radius: 3px;
+  }
+  .evidence-hash-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.4px;
+    padding: 9px 11px;
+    border-radius: 3px;
+    outline: none;
+  }
+  .evidence-hash-input:focus { border-color: var(--teal-dim); }
+  .evidence-submit {
+    background: var(--teal-dim);
+    color: #ECEDEF;
+    border: 1px solid var(--teal);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 12.8px;
+    letter-spacing: 0.02em;
+    padding: 9px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .evidence-submit:hover { background: var(--teal); color: #06110F; }
+  .evidence-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .evidence-result {
+    margin-top: 9px;
+    padding: 9px 11px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.8px;
+    line-height: 1.6;
+    word-break: break-all;
+  }
+  .evidence-result.ok { background: rgba(76,155,147,.08); border: 1px solid var(--teal-dim); color: var(--teal); }
+  .evidence-result.bad { background: rgba(195,59,59,.08); border: 1px solid var(--red-dim); color: var(--red); }
+  .evidence-result:empty { display: none; }
+
+  /* ===== Shortest-Path Finder ===== */
+  .path-finder-form { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .path-finder-input {
+    flex: 1;
+    min-width: 130px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 9px 11px;
+    border-radius: 3px;
+    outline: none;
+  }
+  .path-finder-input:focus { border-color: var(--teal-dim); }
+  .path-finder-submit {
+    background: var(--teal);
+    color: #06110F;
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 12.8px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0 16px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .path-finder-submit:hover { background: #4FBDB5; }
+
+  /* ===== Security / Blockchain status ===== */
+  .security-grid { display: grid; grid-template-columns: 1fr; }
+  .security-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 13.2px;
+  }
+  .security-item:last-child { border-bottom: none; }
+  .security-value {
+    color: var(--teal);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-align: right;
+  }
 </style>
 </head>
 <body>
@@ -1104,6 +1263,12 @@
 
     <div class="system-note" style="margin:0 0 12px 0;">NEXUS correlates authorized case records to surface relationships and anomalies. Signals are investigative indicators, not findings of guilt.</div>
 
+    <section class="panel" id="ml-anomaly-panel">
+      <div class="eyebrow">ML Anomaly Detection <span class="live-tag">ISOLATION FOREST</span></div>
+      <div id="ml-anomalies-list"><div class="empty-note">Loading…</div></div>
+      <div class="ml-note">Complementary to rule-based structuring alerts — scores reflect statistical unusualness, not confirmed wrongdoing.</div>
+    </section>
+
     <section class="panel" id="realtime-panel">
       <div class="eyebrow">Live Intelligence Feed <span id="realtime-live-indicator" style="color:var(--teal)">● LIVE</span></div>
       <div id="realtime-feed"><div class="empty-note">Waiting for live events…</div></div>
@@ -1123,6 +1288,27 @@
       <div class="chain-strip" id="chain-strip"></div>
       <div class="verify-banner ok" id="verify-banner">Verifying chain integrity…</div>
     </section>
+
+    <section class="panel" id="evidence-panel">
+      <div class="eyebrow">Evidence Hash &amp; Verify</div>
+      <div class="evidence-block">
+        <div class="evidence-block-title">Register New Evidence</div>
+        <form id="evidence-hash-form" class="evidence-form">
+          <input type="file" id="evidence-hash-file" class="evidence-file-input" required>
+          <button type="submit" class="evidence-submit">Hash &amp; Register Evidence</button>
+        </form>
+        <div class="evidence-result" id="evidence-hash-result"></div>
+      </div>
+      <div class="evidence-block">
+        <div class="evidence-block-title">Verify Existing Evidence</div>
+        <form id="evidence-verify-form" class="evidence-form">
+          <input type="file" id="evidence-verify-file" class="evidence-file-input" required>
+          <input type="text" id="evidence-verify-hash" class="evidence-hash-input" placeholder="Expected SHA-256 hash…" required>
+          <button type="submit" class="evidence-submit">Verify Integrity</button>
+        </form>
+        <div class="evidence-result" id="evidence-verify-result"></div>
+      </div>
+    </section>
   </div>
 
   <div class="col">
@@ -1139,6 +1325,21 @@
     <section class="panel">
       <div class="eyebrow">Detected Sub-Groups</div>
       <div id="communities-list"><div class="empty-note">Loading…</div></div>
+    </section>
+
+    <section class="panel" id="path-finder-panel">
+      <div class="eyebrow">Shortest-Path Finder</div>
+      <form id="path-finder-form" class="path-finder-form">
+        <input type="text" id="path-source" class="path-finder-input" placeholder="Source entity…" required>
+        <input type="text" id="path-target" class="path-finder-input" placeholder="Target entity…" required>
+        <button type="submit" class="path-finder-submit">Trace</button>
+      </form>
+      <div id="path-finder-result"></div>
+    </section>
+
+    <section class="panel" id="security-panel">
+      <div class="eyebrow">Security &amp; Blockchain Status</div>
+      <div class="security-grid" id="security-status-grid"><div class="empty-note">Loading…</div></div>
     </section>
   </div>
 </div>
@@ -1260,6 +1461,15 @@ function barCell(value) {
 function riskBadge(risk) {
   if (!risk) return "";
   return `<span class="risk-badge ${risk.risk_level}">${risk.risk_level} · ${risk.risk_score}</span>`;
+}
+
+function escapeAiText(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 async function loadGraph() {
@@ -1601,6 +1811,8 @@ async function openEntityDetail(name) {
         ${d.rank ? `<div class="detail-rank">RANK #${d.rank.rank} · PAGERANK ${d.rank.pagerank.toFixed(3)} · DEGREE ${d.rank.degree_centrality.toFixed(3)}</div>` : ""}
         ${d.risk && d.risk.bridges_networks ? `<div class="detail-rank" style="color:var(--red)">⚠ BRIDGES MULTIPLE NETWORKS</div>` : ""}
         <button class="report-btn" id="download-report-btn" data-name="${d.name}">⬇ Download Case Report (PDF)</button>
+        ${d.type === "Person" ? `<button class="explain-btn" id="ai-explain-btn" data-name="${d.name}">🔍 AI Explain This Entity</button>` : ""}
+        <div id="ai-explain-result"></div>
       </div>
     `;
 
@@ -1649,6 +1861,7 @@ async function openEntityDetail(name) {
       el.addEventListener("click", () => openEntityDetail(el.dataset.goto));
     });
     document.getElementById("download-report-btn").addEventListener("click", (e) => downloadCaseReport(e.target.dataset.name));
+    document.getElementById("ai-explain-btn")?.addEventListener("click", (e) => runAiExplain(e.target));
   } catch (e) {
     content.innerHTML = '<div class="empty-note" style="padding:40px">Could not load case file — is the engine running?</div>';
   }
@@ -1657,6 +1870,59 @@ async function openEntityDetail(name) {
 function closeEntityDetail() {
   document.getElementById("detail-panel").classList.remove("open");
   document.getElementById("overlay").classList.remove("open");
+}
+
+async function runAiExplain(btn) {
+  const name = btn.dataset.name;
+  const resultEl = document.getElementById("ai-explain-result");
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Analyzing…";
+  resultEl.innerHTML = '<div class="ai-thinking"><span></span><span></span><span></span></div>';
+
+  try {
+    const d = await fetchJSON("/explain/" + encodeURIComponent(name));
+
+    let html = `<div class="detail-section"><div class="detail-section-title">AI Explanation</div>`;
+    html += `<div class="ai-card">
+      <div class="ai-priority">
+        <div><strong>Investigation Priority</strong><div class="record-meta">${escapeAiText(d.confidence_note || "")}</div></div>
+        <div class="explain-priority-score">${d.investigation_priority}</div>
+      </div>
+      ${d.risk_level ? `<div class="ai-signal"><span>Risk level</span><b>${escapeAiText(d.risk_level)}</b></div>` : ""}
+      ${d.centrality_rank ? `<div class="ai-signal"><span>Centrality rank</span><b>#${d.centrality_rank}</b></div>` : ""}
+    </div>`;
+
+    if (d.why_highlighted && d.why_highlighted.length) {
+      html += `<div class="ai-note">Why this entity was highlighted</div>`;
+      html += d.why_highlighted.map(r => `
+        <div class="ai-evidence"><b>${escapeAiText(r.signal)}</b> (${escapeAiText(r.value)})<div>${escapeAiText(r.explanation)}</div></div>
+      `).join("");
+    }
+
+    if (d.supporting_sources && d.supporting_sources.length) {
+      html += `<div class="ai-note">Supporting Sources</div>`;
+      html += d.supporting_sources.map(s => `
+        <div class="ai-evidence">
+          <b>${escapeAiText(s.source_type)}</b>
+          <div>${escapeAiText(s.description)}</div>
+          ${s.confidence != null ? `<div class="ai-ref">CONFIDENCE: ${Math.round(s.confidence * 100)}%</div>` : ""}
+        </div>
+      `).join("");
+    }
+
+    if (d.recommended_review) {
+      html += `<div class="system-note" style="margin-top:8px">${escapeAiText(d.recommended_review)}</div>`;
+    }
+
+    html += `</div>`;
+    resultEl.innerHTML = html;
+  } catch (e) {
+    resultEl.innerHTML = `<div class="empty-note">Could not generate explanation.<br><span style="color:var(--red)">${escapeAiText(e.message)}</span></div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
 }
 
 async function downloadCaseReport(name) {
@@ -1693,15 +1959,6 @@ document.addEventListener("click", (e) => {
 });
 
 /* ===== Ask NEXUS — AI Investigator ===== */
-
-function escapeAiText(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
 
 function attachGotoHandlers(root) {
   root.querySelectorAll(".conn-name[data-goto]").forEach(el => {
@@ -2038,6 +2295,168 @@ async function loadNeo4jStatus() {
   }
 }
 
+/* ===== ML Anomaly Detection ===== */
+async function loadMlAnomalies() {
+  const el = document.getElementById("ml-anomalies-list");
+  if (!el) return;
+  try {
+    const data = await fetchJSON("/ml-anomalies");
+    if (!data.length) { el.innerHTML = '<div class="empty-note">No transactions available for ML analysis.</div>'; return; }
+    const top = data.slice(0, 8);
+    el.innerHTML = top.map(t => `
+      <div class="ml-anomaly-row">
+        <div>
+          <span class="conn-name" data-goto="${t.sender}">${stampRedactions(t.sender)}</span> → <span class="conn-name" data-goto="${t.receiver}">${stampRedactions(t.receiver)}</span>
+          <div class="record-meta">₹${Number(t.amount).toLocaleString('en-IN')} · ${t.mode} · ${String(t.timestamp).split(' ')[0]}</div>
+        </div>
+        <span class="ml-score-badge ${t.is_anomaly ? 'anomaly' : 'normal'}">${Number(t.anomaly_score).toFixed(1)}${t.is_anomaly ? ' · FLAGGED' : ''}</span>
+      </div>
+    `).join("");
+    el.querySelectorAll(".conn-name[data-goto]").forEach(node => {
+      node.style.cursor = "pointer";
+      node.addEventListener("click", () => openEntityDetail(node.dataset.goto));
+    });
+  } catch (e) {
+    el.innerHTML = '<div class="empty-note">ML anomaly detection unavailable.</div>';
+    console.error("ML anomalies:", e);
+  }
+}
+
+/* ===== Evidence Hash & Verify ===== */
+document.getElementById("evidence-hash-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fileInput = document.getElementById("evidence-hash-file");
+  const resultEl = document.getElementById("evidence-hash-result");
+  const btn = e.target.querySelector("button[type=submit]");
+  const file = fileInput.files[0];
+  if (!file) return;
+
+  resultEl.className = "evidence-result";
+  resultEl.textContent = "Hashing evidence…";
+  btn.disabled = true;
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const res = await fetch(API_BASE + "/evidence/hash", {
+      method: "POST",
+      headers: { "Authorization": "Bearer " + AUTH_TOKEN },
+      body: formData
+    });
+    if (!res.ok) {
+      let detail = "Hash request failed";
+      try { const err = await res.json(); detail = err.detail || detail; } catch (_) {}
+      throw new Error(detail);
+    }
+    const d = await res.json();
+    resultEl.className = "evidence-result ok";
+    resultEl.innerHTML = `SHA-256: ${escapeAiText(d.sha256)}<br>Audit Block #${d.audit_block_index} · ${escapeAiText(d.integrity)}<br>Blockchain: ${escapeAiText(d.blockchain_status || "")}`;
+  } catch (err) {
+    resultEl.className = "evidence-result bad";
+    resultEl.textContent = "Error: " + err.message;
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+document.getElementById("evidence-verify-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fileInput = document.getElementById("evidence-verify-file");
+  const hashInput = document.getElementById("evidence-verify-hash");
+  const resultEl = document.getElementById("evidence-verify-result");
+  const btn = e.target.querySelector("button[type=submit]");
+  const file = fileInput.files[0];
+  if (!file || !hashInput.value.trim()) return;
+
+  resultEl.className = "evidence-result";
+  resultEl.textContent = "Verifying evidence…";
+  btn.disabled = true;
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("expected_sha256", hashInput.value.trim());
+
+  try {
+    const res = await fetch(API_BASE + "/evidence/verify", {
+      method: "POST",
+      headers: { "Authorization": "Bearer " + AUTH_TOKEN },
+      body: formData
+    });
+    if (!res.ok) {
+      let detail = "Verify request failed";
+      try { const err = await res.json(); detail = err.detail || detail; } catch (_) {}
+      throw new Error(detail);
+    }
+    const d = await res.json();
+    resultEl.className = "evidence-result " + (d.match ? "ok" : "bad");
+    resultEl.innerHTML = `${escapeAiText(d.status)}<br>Actual hash: ${escapeAiText(d.actual_hash)}`;
+  } catch (err) {
+    resultEl.className = "evidence-result bad";
+    resultEl.textContent = "Error: " + err.message;
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+/* ===== Shortest-Path Finder ===== */
+document.getElementById("path-finder-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const source = document.getElementById("path-source").value.trim();
+  const target = document.getElementById("path-target").value.trim();
+  const resultEl = document.getElementById("path-finder-result");
+  if (!source || !target) return;
+
+  resultEl.innerHTML = '<div class="ai-thinking"><span></span><span></span><span></span></div>';
+  try {
+    const d = await fetchJSON(`/shortest-path?source=${encodeURIComponent(source)}&target=${encodeURIComponent(target)}`);
+    if (!d.path || !d.path.length) {
+      resultEl.innerHTML = '<div class="empty-note">No path found between these entities.</div>';
+      return;
+    }
+    const hops = d.length ?? (d.path.length - 1);
+    resultEl.innerHTML = `<div class="ai-note">Path · ${hops} hop${hops === 1 ? '' : 's'}</div>
+      <div class="ai-path">${d.path.map((p, i) => (i > 0 ? '<span class="ai-arrow">→</span>' : '') + `<span class="chip conn-name" data-goto="${escapeAiText(p)}">${stampRedactions(p)}</span>`).join("")}</div>`;
+    resultEl.querySelectorAll(".conn-name[data-goto]").forEach(node => {
+      node.addEventListener("click", () => openEntityDetail(node.dataset.goto));
+    });
+    highlightAiPath(d.path);
+  } catch (err) {
+    resultEl.innerHTML = `<div class="empty-note">Could not find path.<br><span style="color:var(--red)">${escapeAiText(err.message)}</span></div>`;
+  }
+});
+
+/* ===== Security & Blockchain Status ===== */
+async function loadSecurityStatus() {
+  const el = document.getElementById("security-status-grid");
+  if (!el) return;
+  try {
+    const [sec, chain] = await Promise.all([
+      fetchJSON("/security/status"),
+      fetchJSON("/blockchain/status")
+    ]);
+    const rows = [
+      ["Authentication", sec.authentication],
+      ["Role-Based Access", sec.role_based_access],
+      ["Rate Limiting", sec.rate_limiting],
+      ["Password Hashing", sec.password_hashing],
+      ["Token Integrity", sec.token_integrity],
+      ["Audit Logging", sec.audit_logging],
+      ["Evidence Integrity", sec.evidence_integrity],
+      ["Local Hash Chain", chain.local_hash_chain],
+      ["SHA-256 Hashing", chain.sha256_evidence_hashing],
+      ["Soroban Contract", chain.soroban_contract],
+      ["On-Chain Deployment", chain.on_chain_deployment],
+    ];
+    el.innerHTML = rows.map(([label, value]) => `
+      <div class="security-item"><span>${label}</span><span class="security-value">${escapeAiText(String(value).replace(/_/g, ' '))}</span></div>
+    `).join("");
+  } catch (e) {
+    el.innerHTML = '<div class="empty-note">Security status unavailable.</div>';
+    console.error("Security status:", e);
+  }
+}
+
 async function boot() {
   if (!AUTH_TOKEN) { showLoginScreen(); return; }
   showDashboard();
@@ -2061,6 +2480,8 @@ async function boot() {
   loadTimeline();
   loadHeatmap();
   loadInvestigationReplay();
+  loadMlAnomalies();
+  loadSecurityStatus();
 }
 
 boot();
