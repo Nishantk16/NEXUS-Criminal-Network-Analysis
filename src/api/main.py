@@ -54,6 +54,7 @@ from api.ai_investigator import answer_question
 from graph.neo4j_store import Neo4jStore
 from graph.explainability import explain_person
 from blockchain.evidence import sha256_bytes, verify_bytes
+from api.case_api import router as case_router
 
 
 # ---------------------------------------------------------------------------
@@ -111,13 +112,10 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        # Local development
         "http://localhost:3002",
         "http://127.0.0.1:3002",
         "http://localhost:5173",
         "http://127.0.0.1:5173",
-
-        # Public Vercel frontend
         "https://nexus-criminal-network.vercel.app",
     ],
     allow_credentials=True,
@@ -125,6 +123,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Dynamic case intake / investigation workflow
+app.include_router(case_router)
 
 # ---------------------------------------------------------------------------
 # Graph builder

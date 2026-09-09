@@ -1392,6 +1392,35 @@
       transform: none !important;
     }
   }
+
+/* ===== Dynamic Case Intake ===== */
+.dynamic-case-panel{border:1px solid var(--teal-dim);background:linear-gradient(180deg,rgba(201,162,75,.055),rgba(20,24,31,.35));}
+.dynamic-case-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;}
+.dynamic-case-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.dynamic-case-form .full{grid-column:1/-1;}
+.dynamic-input,.dynamic-select{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);font-family:'JetBrains Mono',monospace;padding:10px 12px;border-radius:3px;outline:none;}
+.dynamic-input:focus,.dynamic-select:focus{border-color:var(--teal-dim);}
+.dynamic-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.dynamic-btn{background:var(--panel-2);border:1px solid var(--teal-dim);color:var(--text);font-family:'JetBrains Mono',monospace;font-weight:600;padding:9px 13px;border-radius:3px;cursor:pointer;}
+.dynamic-btn.primary{background:var(--teal);color:#06110F;border-color:var(--teal);}
+.dynamic-btn:hover{filter:brightness(1.12);}
+.dynamic-btn:disabled{opacity:.45;cursor:not-allowed;}
+.dynamic-case-id{font-family:'JetBrains Mono',monospace;color:var(--teal);font-size:14px;margin-top:8px;}
+.dynamic-evidence-list{max-height:230px;overflow:auto;border:1px solid var(--line);background:rgba(10,12,16,.55);}
+.dynamic-evidence-row{padding:9px 11px;border-bottom:1px solid var(--line-soft);font-size:13px;}
+.dynamic-evidence-row:last-child{border-bottom:0;}
+.dynamic-evidence-row strong{color:var(--text);}
+.dynamic-muted{color:var(--text-faint);font-family:'JetBrains Mono',monospace;font-size:11px;}
+.dynamic-result{margin-top:14px;border:1px solid var(--line);background:var(--panel-2);padding:14px;display:none;}
+.dynamic-result.show{display:block;}
+.dynamic-result-title{font-family:'Fraunces',serif;font-style:italic;font-size:22px;margin-bottom:8px;}
+.dynamic-risk{font-family:'JetBrains Mono',monospace;font-weight:700;display:inline-block;padding:5px 9px;border:1px solid var(--teal-dim);margin-bottom:10px;}
+.dynamic-risk.high{border-color:var(--red);color:#ff6b6b;}.dynamic-risk.medium{border-color:var(--amber);color:var(--amber);}.dynamic-risk.low{color:var(--data);}
+.dynamic-stat-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.dynamic-stat{border:1px solid var(--line);padding:7px 9px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);}
+.dynamic-stat b{color:var(--text);}
+@media(max-width:900px){.dynamic-case-grid{grid-template-columns:1fr}.dynamic-case-form{grid-template-columns:1fr}.dynamic-case-form .full{grid-column:auto;}}
+
 </style>
 </head>
 <body>
@@ -1468,6 +1497,39 @@
   <div class="topline-main"><strong>CASE WORKSPACE</strong> · PS-26189 · Criminal Network Intelligence</div>
   <div class="topline-meta">DEMO DATASET · INVESTIGATION SUPPORT · HUMAN REVIEW REQUIRED</div>
 </div>
+
+<section class="panel dynamic-case-panel" id="dynamic-case-panel">
+  <div class="eyebrow">LIVE CASE INTAKE <span class="ai-online-tag"><span class="ai-online-dot"></span>DYNAMIC INVESTIGATION</span></div>
+  <div class="dynamic-case-grid">
+    <div>
+      <div class="dynamic-case-form">
+        <input id="new-case-title" class="dynamic-input" placeholder="Case title e.g. Financial Network — 26189">
+        <input id="new-case-description" class="dynamic-input" placeholder="Short case description">
+        <select id="evidence-type" class="dynamic-select">
+          <option value="transaction">Financial Transaction</option><option value="call">Call / CDR</option><option value="person">Person Relationship</option><option value="vehicle">Vehicle</option><option value="location">Location</option><option value="note">Intelligence Note</option>
+        </select>
+        <input id="evidence-source" class="dynamic-input" placeholder="Evidence source e.g. CDR / FIR / Bank">
+        <input id="evidence-subject" class="dynamic-input" placeholder="Subject / Person">
+        <input id="evidence-target" class="dynamic-input" placeholder="Target / Connected entity">
+        <input id="evidence-amount" class="dynamic-input" type="number" min="0" step="1" placeholder="Amount (optional)">
+        <input id="evidence-relation" class="dynamic-input" placeholder="Relation e.g. TRANSFERRED_TO">
+        <input id="evidence-details" class="dynamic-input full" placeholder="Details / observation / source note">
+      </div>
+      <div class="dynamic-actions">
+        <button class="dynamic-btn primary" id="create-case-btn" type="button">+ CREATE CASE</button>
+        <button class="dynamic-btn" id="add-evidence-btn" type="button" disabled>ADD EVIDENCE</button>
+        <button class="dynamic-btn" id="demo-evidence-btn" type="button" disabled>LOAD DEMO EVIDENCE</button>
+        <button class="dynamic-btn" id="analyze-case-btn" type="button" disabled>START ANALYSIS</button>
+      </div>
+      <div class="dynamic-case-id" id="dynamic-case-id">NO ACTIVE CASE</div>
+    </div>
+    <div>
+      <div class="dynamic-muted">EVIDENCE QUEUE</div>
+      <div class="dynamic-evidence-list" id="dynamic-evidence-list"><div class="dynamic-evidence-row dynamic-muted">Create a case to begin adding evidence.</div></div>
+      <div class="dynamic-result" id="dynamic-result"></div>
+    </div>
+  </div>
+</section>
 
 <section class="panel" id="ai-investigator-panel">
   <div class="eyebrow">Ask NEXUS <span class="ai-online-tag"><span class="ai-online-dot"></span>AI INVESTIGATOR</span></div>
@@ -2881,6 +2943,74 @@ async function loadSecurityStatus() {
     console.error("Security status:", e);
   }
 }
+
+
+/* ===== Dynamic Case Workflow ===== */
+let ACTIVE_CASE_ID = null;
+let ACTIVE_CASE = null;
+
+function dynamicEl(id){ return document.getElementById(id); }
+function dynamicSetEnabled(enabled){
+  ['add-evidence-btn','demo-evidence-btn','analyze-case-btn'].forEach(id=>{ const el=dynamicEl(id); if(el) el.disabled=!enabled; });
+}
+function dynamicRenderEvidence(evidence=[]){
+  const el=dynamicEl('dynamic-evidence-list'); if(!el) return;
+  if(!evidence.length){el.innerHTML='<div class="dynamic-evidence-row dynamic-muted">No evidence added yet.</div>';return;}
+  el.innerHTML=evidence.map(e=>`<div class="dynamic-evidence-row"><strong>${escapeAiText(String(e.type||'evidence').toUpperCase())}</strong> · ${escapeAiText(String(e.subject||''))}${e.target?' → '+escapeAiText(String(e.target)):''}<div class="dynamic-muted">${escapeAiText(String(e.source||'manual'))}${e.amount?' · ₹'+Number(e.amount).toLocaleString('en-IN'):''}${e.details?' · '+escapeAiText(String(e.details)):''}</div></div>`).join('');
+}
+function dynamicRenderResult(a){
+  const el=dynamicEl('dynamic-result'); if(!el) return;
+  const level=String(a.risk_level||'LOW').toLowerCase();
+  el.className='dynamic-result show';
+  el.innerHTML=`<div class="dynamic-result-title">Investigation Result</div><div class="dynamic-risk ${level}">${escapeAiText(String(a.risk_level||'LOW'))} RISK · ${Number(a.top_risk||0).toFixed(1)}</div><div><strong>Top entity:</strong> ${escapeAiText(String(a.top_entity||'—'))}</div><div style="margin-top:6px;color:var(--text-dim)">${escapeAiText(String(a.explanation||''))}</div><div class="dynamic-stat-row"><div class="dynamic-stat">NODES <b>${a.node_count??0}</b></div><div class="dynamic-stat">RELATIONSHIPS <b>${a.relationship_count??0}</b></div><div class="dynamic-stat">STATUS <b>ANALYZED</b></div></div>`;
+}
+async function dynamicCaseRequest(path, options={}){
+  const headers=Object.assign({'Content-Type':'application/json'}, options.headers||{});
+  if(AUTH_TOKEN) headers.Authorization='Bearer '+AUTH_TOKEN;
+  const res=await fetch(API_BASE+path,{...options,headers});
+  let data={}; try{data=await res.json();}catch(_){data={detail:await res.text()};}
+  if(!res.ok) throw new Error(data.detail||'Request failed');
+  return data;
+}
+function dynamicRenderGraph(a){
+  if(!a || !a.nodes || typeof vis==='undefined') return;
+  const container=document.getElementById('network'); if(!container) return;
+  try{ if(window.NEXUS_NETWORK) window.NEXUS_NETWORK.destroy(); }catch(_){ }
+  const colorMap={Person:'#C33B3B',Location:'#4C9B93',Vehicle:'#D98F3B'};
+  const nodes=new vis.DataSet(a.nodes.map(n=>({id:n.id,label:n.label||n.id,color:{background:colorMap[n.type]||'#565E6B',border:colorMap[n.type]||'#565E6B',highlight:{background:colorMap[n.type]||'#565E6B',border:'#ECEDEF'}},font:{color:'#ECEDEF',face:'JetBrains Mono',size:12},shape:'dot',size:Math.max(14,14+(Number(n.risk||0)/20))})));
+  const edges=new vis.DataSet((a.edges||[]).map(e=>({from:e.from,to:e.to,label:e.label||'',color:{color:'#262C36',highlight:'#C9A24B'},font:{color:'#565E6B',size:9,face:'JetBrains Mono',strokeWidth:0,background:'#0A0C10'},arrows:'to',smooth:{type:'curvedCW',roundness:.15}})));
+  window.NEXUS_NETWORK=new vis.Network(container,{nodes,edges},{physics:{barnesHut:{gravitationalConstant:-6000,springLength:140},stabilization:{iterations:100}},interaction:{hover:true}});
+  window.NEXUS_GRAPH_NODES=nodes; window.NEXUS_GRAPH_EDGES=edges;
+  container.classList.add('graph-in');
+}
+
+dynamicEl('create-case-btn')?.addEventListener('click',async()=>{
+  const title=dynamicEl('new-case-title').value.trim(); const description=dynamicEl('new-case-description').value.trim();
+  if(!title){alert('Enter a case title first.');return;}
+  const btn=dynamicEl('create-case-btn'); btn.disabled=true;
+  try{
+    ACTIVE_CASE=await dynamicCaseRequest('/api/cases',{method:'POST',body:JSON.stringify({title,description})});
+    ACTIVE_CASE_ID=ACTIVE_CASE.case_id; dynamicEl('dynamic-case-id').textContent='ACTIVE CASE · '+ACTIVE_CASE_ID; dynamicSetEnabled(true); dynamicRenderEvidence([]); dynamicEl('dynamic-result').className='dynamic-result';
+  }catch(e){alert('Create case failed: '+e.message);} finally{btn.disabled=false;}
+});
+
+dynamicEl('add-evidence-btn')?.addEventListener('click',async()=>{
+  if(!ACTIVE_CASE_ID)return;
+  const payload={type:dynamicEl('evidence-type').value,source:dynamicEl('evidence-source').value.trim()||'manual',subject:dynamicEl('evidence-subject').value.trim(),target:dynamicEl('evidence-target').value.trim(),amount:Number(dynamicEl('evidence-amount').value||0),relation:dynamicEl('evidence-relation').value.trim()||'RELATED_TO',details:dynamicEl('evidence-details').value.trim()};
+  try{await dynamicCaseRequest('/api/cases/'+encodeURIComponent(ACTIVE_CASE_ID)+'/evidence',{method:'POST',body:JSON.stringify(payload)}); ACTIVE_CASE=await dynamicCaseRequest('/api/cases/'+encodeURIComponent(ACTIVE_CASE_ID)); dynamicRenderEvidence(ACTIVE_CASE.evidence); dynamicEl('dynamic-result').className='dynamic-result';}catch(e){alert('Add evidence failed: '+e.message);}
+});
+
+dynamicEl('demo-evidence-btn')?.addEventListener('click',async()=>{
+  if(!ACTIVE_CASE_ID)return;
+  try{await dynamicCaseRequest('/api/cases/'+encodeURIComponent(ACTIVE_CASE_ID)+'/demo-evidence',{method:'POST'}); ACTIVE_CASE=await dynamicCaseRequest('/api/cases/'+encodeURIComponent(ACTIVE_CASE_ID)); dynamicRenderEvidence(ACTIVE_CASE.evidence);}catch(e){alert('Demo evidence failed: '+e.message);}
+});
+
+dynamicEl('analyze-case-btn')?.addEventListener('click',async()=>{
+  if(!ACTIVE_CASE_ID)return;
+  const btn=dynamicEl('analyze-case-btn'); btn.disabled=true; btn.textContent='ANALYZING…';
+  try{const a=await dynamicCaseRequest('/api/cases/'+encodeURIComponent(ACTIVE_CASE_ID)+'/analyze',{method:'POST'}); dynamicRenderResult(a); dynamicRenderGraph(a);}
+  catch(e){alert('Analysis failed: '+e.message);} finally{btn.disabled=false;btn.textContent='START ANALYSIS';}
+});
 
 async function boot() {
   if (!AUTH_TOKEN) { showLoginScreen(); return; }
