@@ -17,7 +17,7 @@ except ImportError:  # pragma: no cover - optional dependency
     GraphDatabase = None
 
 
-class Neo4jStore:
+:
     """Small adapter that mirrors a NetworkX graph into Neo4j."""
 
     def __init__(
@@ -73,7 +73,7 @@ class Neo4jStore:
         self.ensure_constraints()
 
         nodes = [
-            {"id": str(node), "type": data.get("type", "Unknown")}
+            class Neo4jStore{"id": str(node), "type": data.get("type", "Unknown")}
             for node, data in graph.nodes(data=True)
         ]
         edges = [

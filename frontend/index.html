@@ -894,7 +894,7 @@
     color: var(--red);
     border-color: var(--red);
     background: rgba(195,59,59,0.14);
-    animation: badgeGlow 2.2s ease-in-out infinite;
+    animation: badgeScaleIn 220ms ease-out, badgeGlow 2.2s ease-in-out 220ms infinite;
   }
   @keyframes badgeGlow {
     0%, 100% { box-shadow: 0 0 0 rgba(195,59,59,0); }
@@ -1127,9 +1127,276 @@
     text-transform: uppercase;
     text-align: right;
   }
+
+  /* ======================================================================
+     MICRO-ANIMATIONS & POLISH LAYER
+     Everything below is additive — no existing selector above is overridden
+     except where explicitly noted. All timings are deliberate/slow per the
+     "serious investigative tool" brief: 200-400ms for UI, 2-3s for ambient.
+     ====================================================================== */
+
+  /* ---- Ambient ---- */
+  body::before {
+    animation: grainDrift 26s linear infinite;
+  }
+  @keyframes grainDrift {
+    0%   { background-position: 0 0; }
+    100% { background-position: 140px 140px; }
+  }
+
+  #scan-overlay {
+    position: fixed;
+    left: 0; right: 0;
+    height: 140px;
+    top: -140px;
+    pointer-events: none;
+    z-index: 1;
+    background: linear-gradient(180deg, transparent, rgba(76,155,147,0.05) 45%, rgba(76,155,147,0.09) 50%, rgba(76,155,147,0.05) 55%, transparent);
+    animation: scanDrift 9s linear infinite;
+    mix-blend-mode: screen;
+  }
+  @keyframes scanDrift {
+    0%   { top: -140px; }
+    100% { top: 100vh; }
+  }
+
+  /* ---- Panel reveal (fade + slight upward slide) ---- */
+  section.panel, #ai-investigator-panel, .command-bar, .topline {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  section.panel.reveal-in, #ai-investigator-panel.reveal-in, .command-bar.reveal-in, .topline.reveal-in {
+    animation: panelReveal 320ms ease-out forwards;
+  }
+  @keyframes panelReveal {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---- Entity detail slide-over: softer easing, slight fade ---- */
+  .detail-panel {
+    transition: right 320ms cubic-bezier(.22,.61,.36,1), opacity 320ms cubic-bezier(.22,.61,.36,1);
+    opacity: 0;
+  }
+  .detail-panel.open { opacity: 1; }
+
+  /* ---- Login screen ---- */
+  .official-seal svg, #login-screen .login-card svg {
+    animation: sealIntro 1.6s cubic-bezier(.22,.61,.36,1) 1;
+    transform-origin: center;
+  }
+  @keyframes sealIntro {
+    0%   { opacity: 0; transform: rotate(-8deg) scale(0.92); filter: drop-shadow(0 0 0 rgba(201,162,75,0)); }
+    55%  { opacity: 1; transform: rotate(1deg) scale(1.03); filter: drop-shadow(0 0 10px rgba(201,162,75,0.55)); }
+    100% { opacity: 1; transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 0 rgba(201,162,75,0)); }
+  }
+  .login-input:focus, .search-input:focus, .ai-input:focus,
+  .path-finder-input:focus, .evidence-hash-input:focus {
+    box-shadow: 0 0 0 3px rgba(201,162,75,0.18);
+    transition: box-shadow 220ms ease, border-color 220ms ease;
+  }
+  .login-submit {
+    position: relative;
+    overflow: hidden;
+    transition: background 220ms ease, transform 150ms ease;
+  }
+  .login-submit.verifying::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: -60%;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+    animation: shimmerScan 900ms ease-in-out infinite;
+  }
+  @keyframes shimmerScan {
+    0%   { left: -60%; }
+    100% { left: 120%; }
+  }
+
+  /* ---- Buttons: press + hover glow (broad, deliberate) ---- */
+  .login-submit, .ai-submit, .ai-chip, .ai-action, .report-btn, .explain-btn,
+  .evidence-submit, .path-finder-submit, .logout-btn, .redact-switch,
+  .replay-play-btn, .detail-close {
+    transition: transform 150ms ease, box-shadow 220ms ease, background 220ms ease, color 220ms ease, border-color 220ms ease;
+  }
+  .login-submit:active, .ai-submit:active, .ai-chip:active, .ai-action:active,
+  .report-btn:active, .explain-btn:active, .evidence-submit:active,
+  .path-finder-submit:active, .replay-play-btn:active {
+    transform: scale(0.97);
+  }
+  .login-submit:hover, .ai-submit:hover, .report-btn:hover:not(:disabled),
+  .explain-btn:hover:not(:disabled), .evidence-submit:hover:not(:disabled),
+  .path-finder-submit:hover {
+    box-shadow: 0 0 14px rgba(201,162,75,0.28);
+  }
+
+  /* ---- Cards/rows: soft lift on hover for anything clickable ---- */
+  .influencer-row, .alert-card, .ml-anomaly-row, .block, .chip, .conn-name,
+  .ai-result-row, .search-result-item, .replay-card {
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  }
+  .influencer-row:hover,
+  .alert-card:hover, .ml-anomaly-row:hover, .block:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.22);
+  }
+  .chip:hover { transform: translateY(-1px); }
+
+  /* ---- Risk badges: smoother pulse + scale-in on appear ---- */
+  .risk-badge {
+    animation: badgeScaleIn 220ms ease-out;
+  }
+  @keyframes badgeScaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .risk-badge.Medium, .risk-badge.Low {
+    box-shadow: 0 0 6px rgba(217,143,59,0.12);
+  }
+
+  /* ---- Redaction stamps: ink-stamp hit animation ---- */
+  .redact-stamp {
+    animation: stampHit 340ms cubic-bezier(.34,1.35,.4,1);
+    display: inline-block;
+  }
+  @keyframes stampHit {
+    0%   { opacity: 0; transform: scale(1.4) rotate(-6deg); }
+    55%  { opacity: 0.55; transform: scale(0.96) rotate(2deg); }
+    70%  { opacity: 1; }
+    78%  { opacity: 0.7; }
+    100% { opacity: 1; transform: scale(1) rotate(-1deg); }
+  }
+
+  /* ---- Graph panel ---- */
+  #network {
+    opacity: 0;
+    transform: scale(0.985);
+    transition: opacity 420ms ease-out, transform 420ms ease-out;
+  }
+  #network.graph-in { opacity: 1; transform: scale(1); }
+  .bridge-pulse-ring {
+    position: absolute;
+    width: 34px; height: 34px;
+    margin-left: -17px; margin-top: -17px;
+    border-radius: 50%;
+    border: 2px solid var(--data);
+    pointer-events: none;
+    z-index: 5;
+    animation: bridgePulse 1.5s cubic-bezier(.22,.61,.36,1) 3;
+  }
+  @keyframes bridgePulse {
+    0%   { transform: scale(0.5); opacity: 0.9; }
+    100% { transform: scale(2.6); opacity: 0; }
+  }
+
+  /* ---- Live intelligence feed: slide-in + highlight flash ---- */
+  #realtime-feed { scroll-behavior: smooth; }
+  .realtime-event.feed-new {
+    animation: feedSlideIn 380ms ease-out, feedFlash 1.5s ease-out;
+  }
+  @keyframes feedSlideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes feedFlash {
+    0%   { background: rgba(76,155,147,0.16); }
+    100% { background: rgba(76,155,147,0); }
+  }
+
+  /* ---- Investigation Replay: progress track + icon morph ---- */
+  .replay-track {
+    position: relative;
+    height: 3px;
+    background: var(--line);
+    border-radius: 2px;
+    margin: 2px 0 4px;
+    overflow: visible;
+  }
+  .replay-track-fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    background: var(--teal-dim);
+    border-radius: 2px;
+    transition: width 260ms ease;
+  }
+  .replay-track-dot {
+    position: absolute; top: 50%;
+    width: 9px; height: 9px;
+    background: var(--teal);
+    border: 2px solid var(--bg);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 8px rgba(201,162,75,0.5);
+    transition: left 260ms ease;
+  }
+  .replay-play-btn { transition: transform 150ms ease, background 220ms ease, color 220ms ease; }
+  .replay-play-btn .icon-morph { display: inline-block; transition: transform 180ms ease; }
+  .replay-play-btn.icon-swap .icon-morph { transform: scale(0.6) rotate(35deg); opacity: 0.2; }
+
+  /* ---- Ask NEXUS: scan-line thinking state + line-by-line reveal ---- */
+  .ai-scan-thinking {
+    position: relative;
+    height: 34px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+  }
+  .ai-scan-thinking::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: -30%;
+    width: 30%;
+    background: linear-gradient(90deg, transparent, rgba(76,155,147,0.45), transparent);
+    animation: scanBar 1.1s ease-in-out infinite;
+  }
+  @keyframes scanBar {
+    0%   { left: -30%; }
+    100% { left: 100%; }
+  }
+  .ai-scan-label {
+    position: relative;
+    z-index: 1;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    padding: 9px 12px;
+  }
+  .ai-answer-line {
+    opacity: 0;
+    animation: lineReveal 380ms ease-out forwards;
+  }
+  @keyframes lineReveal {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---- Count-up numeric readouts ---- */
+  .count-up { display: inline-block; }
+
+  /* ---- Header seal: very subtle scroll parallax ---- */
+  .official-seal { transition: transform 60ms linear; will-change: transform; }
+
+  /* ---- Respect prefers-reduced-motion: disable non-essential motion ---- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+    #scan-overlay, .bridge-pulse-ring { display: none !important; }
+    section.panel, #ai-investigator-panel, .command-bar, .topline, #network {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
 </style>
 </head>
 <body>
+
+<div id="scan-overlay"></div>
 
 <div id="login-screen">
   <div class="login-card">
@@ -1250,10 +1517,14 @@
         <div class="replay-index-badge"><strong id="replay-hero-position">—</strong>EVENT</div>
       </div>
       <div class="replay-controls">
-        <button id="replay-play-btn" type="button" class="replay-play-btn" title="Auto-play investigation replay">▶</button>
+        <button id="replay-play-btn" type="button" class="replay-play-btn" title="Auto-play investigation replay"><span class="icon-morph" id="replay-play-icon">▶</span></button>
         <span class="replay-label">Event</span>
         <input id="replay-slider" type="range" min="0" max="0" value="0" step="1" aria-label="Investigation timeline replay">
         <span class="replay-position" id="replay-position">0 / 0</span>
+      </div>
+      <div class="replay-track" id="replay-track">
+        <div class="replay-track-fill" id="replay-track-fill"></div>
+        <div class="replay-track-dot" id="replay-track-dot" style="left:0%"></div>
       </div>
       <div id="replay-summary" class="replay-meta">Loading investigation history…</div>
       <div id="replay-changes" style="margin-top:10px">
@@ -1399,6 +1670,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
   errorEl.classList.remove("show");
   btn.disabled = true;
   btn.textContent = "Signing In…";
+  btn.classList.add("verifying");
 
   try {
     const res = await fetch(API_BASE + "/login", {
@@ -1423,6 +1695,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
   } finally {
     btn.disabled = false;
     btn.textContent = "Sign In";
+    btn.classList.remove("verifying");
   }
 });
 
@@ -1472,6 +1745,69 @@ function escapeAiText(value) {
     .replaceAll("'", "&#039;");
 }
 
+/* ===== Panel reveal (fade + slide-up) — case-file "opening" feel on boot ===== */
+let panelRevealObserver = null;
+function setupPanelReveal() {
+  const targets = document.querySelectorAll("section.panel, #ai-investigator-panel, .command-bar, .topline");
+  if (!targets.length) return;
+
+  if (!panelRevealObserver) {
+    panelRevealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("reveal-in");
+          panelRevealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+  }
+
+  targets.forEach((el, i) => {
+    if (el.classList.contains("reveal-in")) return;
+    // First-boot stagger for the case-file "opening" feel; below-the-fold
+    // panels reveal on scroll via the observer instead of all firing at once.
+    if (i < 6) {
+      setTimeout(() => el.classList.add("reveal-in"), i * 60);
+      panelRevealObserver.unobserve(el);
+    } else {
+      panelRevealObserver.observe(el);
+    }
+  });
+}
+
+/* ===== Subtle header seal parallax on scroll ===== */
+let parallaxBound = false;
+function setupHeaderParallax() {
+  if (parallaxBound) return;
+  parallaxBound = true;
+  window.addEventListener("scroll", () => {
+    const seal = document.querySelector("header .official-seal");
+    if (!seal) return;
+    const shift = Math.min(window.scrollY * 0.03, 3);
+    seal.style.transform = `translateY(${shift}px)`;
+  }, { passive: true });
+}
+
+/* ===== Count-up animation for numeric readouts ===== */
+function animateCountUp(el, target, duration) {
+  if (!el) return;
+  target = Number(target) || 0;
+  duration = duration || 450;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    el.textContent = target;
+    return;
+  }
+  const start = 0;
+  const startTime = performance.now();
+  function tick(now) {
+    const p = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(start + (target - start) * eased);
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
 async function loadGraph() {
   try {
     const data = await fetchJSON("/graph");
@@ -1514,6 +1850,55 @@ async function loadGraph() {
     window.NEXUS_NETWORK = network;
     window.NEXUS_GRAPH_NODES = nodes;
     window.NEXUS_GRAPH_EDGES = edges;
+
+    // Fade/scale the whole canvas in once physics has settled, rather than
+    // popping in mid-simulation — reads as deliberate rather than jumpy.
+    network.once("stabilizationIterationsDone", () => {
+      container.classList.add("graph-in");
+      drawBridgePulse();
+    });
+    // Fallback in case stabilization never fires (e.g. tiny graphs).
+    setTimeout(() => container.classList.add("graph-in"), 900);
+
+    // Hover halo: highlight a node's edges in forensic cyan, dim the rest.
+    const baseEdgeColor = { color: "#262C36", highlight: "#4C9B93" };
+    network.on("hoverNode", (params) => {
+      const connected = new Set(network.getConnectedEdges(params.node));
+      edges.update(edges.get().map(e => ({
+        id: e.id,
+        color: connected.has(e.id)
+          ? { color: "#4C9B93", opacity: 1 }
+          : { color: "#1A1F27", opacity: 0.35 }
+      })));
+    });
+    network.on("blurNode", () => {
+      edges.update(edges.get().map(e => ({ id: e.id, color: baseEdgeColor })));
+    });
+
+    // Draw a brief pulse ring over the "hidden bridge" entity (Bimal Das, if
+    // present in this dataset) so it draws the eye on load / when selected.
+    function drawBridgePulse() {
+      const bridgeId = data.nodes.find(n => /bimal das/i.test(n.id))?.id;
+      if (!bridgeId) return;
+      const wrap = container;
+      if (getComputedStyle(wrap).position === "static") wrap.style.position = "relative";
+      const ring = document.createElement("div");
+      ring.className = "bridge-pulse-ring";
+      wrap.appendChild(ring);
+      const place = () => {
+        const pos = network.getPositions([bridgeId])[bridgeId];
+        if (!pos) return;
+        const dom = network.canvasToDOM(pos);
+        ring.style.left = dom.x + "px";
+        ring.style.top = dom.y + "px";
+      };
+      place();
+      network.on("afterDrawing", place);
+      setTimeout(() => { ring.remove(); network.off("afterDrawing", place); }, 4600);
+    }
+    network.on("selectNode", (params) => {
+      if (params.nodes[0] && /bimal das/i.test(params.nodes[0])) drawBridgePulse();
+    });
     window.highlightThreatPath = function(path) {
       if (!window.NEXUS_NETWORK || !Array.isArray(path) || !path.length) return;
       const ids = path.filter(x => nodes.get(x));
@@ -1878,7 +2263,7 @@ async function runAiExplain(btn) {
   const originalText = btn.textContent;
   btn.disabled = true;
   btn.textContent = "Analyzing…";
-  resultEl.innerHTML = '<div class="ai-thinking"><span></span><span></span><span></span></div>';
+  resultEl.innerHTML = '<div class="ai-scan-thinking"><span class="ai-scan-label">CROSS-REFERENCING EVIDENCE…</span></div>';
 
   try {
     const d = await fetchJSON("/explain/" + encodeURIComponent(name));
@@ -1917,6 +2302,8 @@ async function runAiExplain(btn) {
 
     html += `</div>`;
     resultEl.innerHTML = html;
+    const scoreEl = resultEl.querySelector(".explain-priority-score");
+    if (scoreEl) animateCountUp(scoreEl, d.investigation_priority, 500);
   } catch (e) {
     resultEl.innerHTML = `<div class="empty-note">Could not generate explanation.<br><span style="color:var(--red)">${escapeAiText(e.message)}</span></div>`;
   } finally {
@@ -1991,11 +2378,23 @@ function aiActionButtons(entity, path) {
   </div>`;
 }
 
+function answerToLines(text) {
+  // Split into sentence-ish chunks so the answer can reveal line by line
+  // instead of dumping the whole block at once.
+  const raw = String(text || "No answer available.");
+  const parts = raw.match(/[^.!?]+[.!?]*(\s+|$)/g) || [raw];
+  return parts.map(s => s.trim()).filter(Boolean);
+}
+
 function renderAiResponse(d) {
   const el = document.getElementById("ai-response");
   const risk = normalizeAiRisk(d.risk);
   const entity = d.entity || (d.results?.[0]?.entity) || "";
-  let html = `<div class="ai-answer">${escapeAiText(d.answer || "No answer available.")}</div>`;
+  const lines = answerToLines(d.answer);
+  const answerHtml = lines.map((line, i) =>
+    `<span class="ai-answer-line" style="animation-delay:${i * 90}ms">${escapeAiText(line)} </span>`
+  ).join("");
+  let html = `<div class="ai-answer">${answerHtml}</div>`;
 
   if (risk || entity) {
     html += `<div class="ai-intel-grid">
@@ -2047,6 +2446,8 @@ function renderAiResponse(d) {
   }
 
   el.innerHTML = html;
+  const priorityScoreEl = el.querySelector(".ai-priority-score");
+  if (priorityScoreEl && risk) animateCountUp(priorityScoreEl, risk.risk_score, 500);
   attachGotoHandlers(el);
   el.querySelectorAll("[data-ai-action]").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -2065,7 +2466,7 @@ async function askNexus(question) {
   const responseEl = document.getElementById("ai-response");
   const btn = document.getElementById("ai-submit-btn");
   if (!responseEl || !btn) return;
-  responseEl.innerHTML = `<div class="ai-thinking"><span></span><span></span><span></span></div>`;
+  responseEl.innerHTML = `<div class="ai-scan-thinking"><span class="ai-scan-label">SCANNING CASE GRAPH…</span></div>`;
   btn.disabled = true;
   try {
     const res = await fetch(API_BASE + "/ai-investigator", {
@@ -2151,6 +2552,12 @@ function renderReplayState(index) {
   if (heroPos) heroPos.textContent = `${index + 1}`;
   summary.textContent = `${current.date || ""} · ${current.type || "EVENT"}`;
 
+  const pct = replayEvents.length > 1 ? (index / (replayEvents.length - 1)) * 100 : 0;
+  const trackFill = document.getElementById("replay-track-fill");
+  const trackDot = document.getElementById("replay-track-dot");
+  if (trackFill) trackFill.style.width = pct + "%";
+  if (trackDot) trackDot.style.left = pct + "%";
+
   if (!previous) {
     changes.innerHTML = `
       <div class="replay-card current">
@@ -2182,6 +2589,15 @@ function renderReplayState(index) {
   typeWriterInto(currentDescEl, current.description || "First recorded event.");
 }
 
+function morphPlayIcon(btn, glyph) {
+  const icon = btn.querySelector(".icon-morph") || btn;
+  btn.classList.add("icon-swap");
+  setTimeout(() => {
+    icon.textContent = glyph;
+    btn.classList.remove("icon-swap");
+  }, 150);
+}
+
 function toggleReplayPlay() {
   const btn = document.getElementById("replay-play-btn");
   const slider = document.getElementById("replay-slider");
@@ -2191,14 +2607,14 @@ function toggleReplayPlay() {
     clearInterval(replayTimer);
     replayTimer = null;
     replayPlaying = false;
-    btn.textContent = "▶";
+    morphPlayIcon(btn, "▶");
     btn.classList.remove("playing");
     return;
   }
 
   if (!replayEvents.length) return;
   replayPlaying = true;
-  btn.textContent = "⏸";
+  morphPlayIcon(btn, "⏸");
   btn.classList.add("playing");
   replayTimer = setInterval(() => {
     let idx = Number(slider.value) + 1;
@@ -2246,14 +2662,23 @@ async function loadInvestigationReplay() {
   }
 }
 
+const _seenFeedKeys = new Set();
+function feedEventKey(e) {
+  return `${e.timestamp}|${e.type}|${e.message}|${e.entity}`;
+}
+
 async function loadRealtimeFeed() {
   try {
     const data = await fetchJSON("/realtime/events?limit=8");
     const el = document.getElementById("realtime-feed");
     if (!data.events.length) { el.innerHTML = '<div class="empty-note">No live events yet.</div>'; return; }
+    const isFirstLoad = _seenFeedKeys.size === 0;
     el.innerHTML = data.events.map(e => {
       const ts = new Date(e.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
-      return `<div class="realtime-event"><span class="realtime-dot ${e.severity === 'HIGH' ? 'high' : ''}"></span><div style="flex:1"><b>${e.type || 'EVENT'} — ${e.message}</b><div class="realtime-time">${ts} · ${e.entity || 'SYSTEM'}</div><div class="realtime-source">SOURCE: ${e.source || 'NEXUS'}</div></div></div>`;
+      const key = feedEventKey(e);
+      const isNew = !isFirstLoad && !_seenFeedKeys.has(key);
+      _seenFeedKeys.add(key);
+      return `<div class="realtime-event${isNew ? ' feed-new' : ''}"><span class="realtime-dot ${e.severity === 'HIGH' ? 'high' : ''}"></span><div style="flex:1"><b>${e.type || 'EVENT'} — ${e.message}</b><div class="realtime-time">${ts} · ${e.entity || 'SYSTEM'}</div><div class="realtime-source">SOURCE: ${e.source || 'NEXUS'}</div></div></div>`;
     }).join("");
     const indicator = document.getElementById("realtime-live-indicator");
     if (indicator) indicator.textContent = "● LIVE";
@@ -2460,6 +2885,8 @@ async function loadSecurityStatus() {
 async function boot() {
   if (!AUTH_TOKEN) { showLoginScreen(); return; }
   showDashboard();
+  setupHeaderParallax();
+  setupPanelReveal();
   try {
     await fetchJSON("/");
     setStatus(true, "Analysis engine online");
